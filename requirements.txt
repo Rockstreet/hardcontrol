@@ -1,0 +1,9 @@
+Django
+psycopg2
+django-mptt
+django-mptt-admin
+django-multiselectfield
+sorl-thumbnail
+Pillow
+django-nested-admin
+django-registration
