@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django_mptt_admin.admin import DjangoMpttAdmin
-from .models import Hard_objects
+from .models import Hard_objects, UserProfile
 import nested_admin
 
 from django.contrib.admin import AdminSite
@@ -15,6 +15,21 @@ from django.contrib.auth.models import User
 
 class Hard_objectsAdmin(admin.ModelAdmin):
     model = Hard_objects
+
+
+class UserInline(admin.StackedInline):
+    model = UserProfile
+    can_delete = False
+    verbose_name_plural = 'Доп. информация'
+
+
+class UserAdmin(UserAdmin):
+    inlines = (UserInline,)
+
+
+# Перерегистрируем модель User
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 
 
 
