@@ -13,14 +13,21 @@ from django.contrib.auth.models import User
 
 
 
+
+
 class Hard_objectsAdmin(admin.ModelAdmin):
     model = Hard_objects
+
+
+
+
 
 
 class UserInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
     verbose_name_plural = 'Доп. информация'
+
 
 
 
@@ -33,6 +40,10 @@ class UserAdmin(UserAdmin):
             # '//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js',
             '/static/admin/js/fpregistration.js',
         )
+
+
+
+
 
 # Перерегистрируем модель User
 admin.site.unregister(User)

@@ -24,4 +24,6 @@ urlpatterns = [
     path('fpregistration', views.FPregistration.as_view(), name='fpregistration'),
 
     path('admin/', admin.site.urls),
+
+    path('register/', views.Register_user.as_view(), name='register_user'),
 ]

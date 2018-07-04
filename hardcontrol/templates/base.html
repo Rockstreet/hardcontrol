@@ -23,7 +23,7 @@
   <body class="bg-light">
 
     <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Система контроля оборудования</a>
+      <a class="navbar-brand" href="/">Система контроля оборудования</a>
       <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -37,11 +37,15 @@
             <a class="nav-link" href="#">Список операций</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Работа с оборудованием</a>
+            <a class="nav-link" href="">Работа с оборудованием</a>
           </li>
 
+{#            <li class="nav-item">#}
+{#            <a class="nav-link" href="{% url 'register_user' %}">Добавление сотрудников</a>#}
+{#          </li>#}
+
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Формирование отчетов</a>
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Формирование отчетов</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
               <a class="dropdown-item" href="#">Отчет по сотруднику </a>
               <a class="dropdown-item" href="#">Отчет по оборудованию</a>
@@ -51,6 +55,9 @@
         </ul>
       </div>
     </nav>
+
+
+
 
 
 
@@ -67,5 +74,26 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <script language="JavaScript">
+
+      $(document).ready(function(){
+
+          //Выбор оборудования вручную
+
+          $('#select_hardw').click(function () {
+
+
+              $('#hardw_list_output').append('');
+
+
+          });
+
+
+      });
+
+  </script>
+
+
   </body>
 </html>
