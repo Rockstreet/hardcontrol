@@ -34,10 +34,12 @@ function clearFP() {
 }
 
 function checkFPexist() {
+    $(".fpnote, .setfp").remove();
+
     if ($(".field-template1 textarea").val() !== '')
         $("<span class='errornote fpnote' style='padding: 15px; display: block; width: 425px; text-align: center; color: #337927; border: 1px solid #337927;'>Отпечаток пальца зарегистрирован<br><a class='deletelink' style='color: #CC3434;cursor: pointer;' onclick='clearFP()'>Очистить</a></span>").insertBefore( ".field-template1" );
     else {
-        $("<a class='button' style='padding: 15px; display: block; width: 425px; text-align: center;' onclick='fp_modal_open();'>Установить отпечаток пальца</a>").insertBefore( ".field-template1" );
+        $("<a class='button setfp' style='padding: 15px; display: block; width: 425px; text-align: center;' onclick='fp_modal_open();'>Установить отпечаток пальца</a>").insertBefore( ".field-template1" );
         $("<span class='errornote fpnote' style='padding: 15px; display: block; width: 425px; text-align: center;'>Отпечаток пальца не зарегистрирован</span>").insertBefore( ".field-template1" );
     }
 }

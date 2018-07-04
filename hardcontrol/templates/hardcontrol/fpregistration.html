@@ -63,8 +63,10 @@
                         }
                         if (msg.template !== undefined) {
                             if (msg.template !== "") {
-                                show_btn();
+                                $("#start, #stop").hide();
+                                $("#close").show();
                                 window.opener.setTemplate('1', msg.template);
+                                window.close();
                             } else {
                                 show_btn();
                             }
@@ -73,6 +75,10 @@
                         $(".report").html(msg.msg + "<br />");
                     //}
                 });
+
+               $("#close").click(function () {
+                   window.close();
+               });
 
                 // identification
                 $("#start").click(function() {
@@ -100,7 +106,7 @@
 
         <button type="button" name="start" id="start" class="btn btn-outline-primary">Сканировать</button>
         <button type="button" name="stop" id="stop" class="btn btn-outline-danger" style="display: none;">Остановить сканирование</button>
-        <button type="button" name="close" id="close" class="btn btn-outline-danger" style="display: none;">Остановить сканирование</button>
+        <button type="button" name="close" id="close" class="btn btn-outline-danger" style="display: none;">Закрыть</button>
     </div>
 </body>
 
