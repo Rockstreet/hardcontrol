@@ -13,8 +13,14 @@ from django.contrib.auth.models import User
 
 
 
+
+
 class Hard_objectsAdmin(admin.ModelAdmin):
     model = Hard_objects
+
+
+
+
 
 
 class UserInline(admin.StackedInline):
@@ -23,8 +29,17 @@ class UserInline(admin.StackedInline):
     verbose_name_plural = 'Доп. информация'
 
 
+
+
+
+
+
 class UserAdmin(UserAdmin):
     inlines = (UserInline,)
+
+
+
+
 
 
 # Перерегистрируем модель User

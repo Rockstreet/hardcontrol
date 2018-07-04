@@ -23,4 +23,6 @@ urlpatterns = [
     path('', views.Index.as_view(), name='index'),
 
     path('admin/', admin.site.urls),
+
+    path('register/', views.Register_user.as_view(), name='register_user'),
 ]

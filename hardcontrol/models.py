@@ -11,6 +11,17 @@ class Hard_objects(models.Model):
     title = models.CharField(_("Наименование оборудования"), max_length=1000, default='')
     rfid_id = models.CharField(_("Rfid ID"), max_length=1000, default='')
     meta_description = models.CharField(_("Описание оборудования"), max_length=1000, blank=True)
+    number1 = models.CharField(_("Инвентарный (заводской) номер средства связи"), max_length=1000, default='', blank=True)
+    number2 = models.CharField(_("Инвентарный (заводской) номер инженерно-технического средства"), max_length=1000, default='', blank=True)
+    name = models.CharField(_("Наименование инженерно-технического средства"), max_length=1000, default='', blank=True)
+    name_rem = models.CharField(_("Наименование ремонтных комплектов"), max_length=1000, default='', blank=True)
+    number_reg = models.CharField(_("Номер свидетельства о регистрации"), max_length=1000, default='', blank=True)
+    number_name = models.CharField(_("Марка транспортного средства"), max_length=1000, default='', blank=True)
+    status = models.BooleanField(_("Оборудование на складе"), default=True )
+
+
+
+
 
 
     def __str__(self):
