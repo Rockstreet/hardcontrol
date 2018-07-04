@@ -4,24 +4,100 @@
 
 
 {% block content %}
+        <script type="text/javascript" charset="utf-8">
+            var lastMsg;
+            var lastMsg_ident;
+            var socketio = null;
+            var namespace = "/work";
+            function showImg() {
+                $.get( location.protocol + '//' + document.domain + ':' + 5000 + "/img", function( data ) {
+                    if (data != '')
+                        $( "#imgResult" ).html( "<img src='data:image/png;base64, " + data + "' width='150'>");
+                });
+            }
 
+            function connect() {
 
-<div class="my-3 p-3 bg-white rounded box-shadow">
+                socketio = io.connect(
+                    location.protocol + '//' + document.domain + ':' + 5000 + namespace
+                );
+                socketio.off().on("re_connect", function(msg) {
+                    console.log("Соединение со сканером установлено");
+                    $(".report").html(msg.msg + "<br />");
+                });
+            }
+
+            function start_ident() {
+                socketio.emit("start_ident");
+            }
+
+            function stop_ident() {
+                socketio.emit("stop_ident");
+            }
+
+            function show_ident_btn() {
+                $("#stop_ident").hide();
+                $("#start_ident").show();
+                $("#imgResult").html("");
+            }
+            function show_stop_ident_btn() {
+                $("#start_ident").hide();
+                $("#stop_ident").show();
+                $("#imgResult").html("");
+            }
+
+            $(document).ready(function() {
+
+               connect();
+               socketio.on("update", function(msg) {
+                    //if (lastMsg_ident !== msg.msg) {
+                        //console.log(msg.user_id);
+                        if (msg.user_id !== undefined) {
+                            if (msg.user_id !== -1)
+                                show_ident_btn();
+                            showImg();
+                        }
+                      //  lastMsg_ident = msg.msg;
+                        $(".report").html(msg.msg + "<br />");
+                    //}
+                });
+
+                // identification
+                $("#start_ident").click(function() {
+                    start_ident();
+                    show_stop_ident_btn();
+                });
+                $("#stop_ident").click(function() {
+                    stop_ident();
+                    show_ident_btn();
+                });
+
+            });
+
+        </script>
+
+<div class="mt-3 p-3 bg-white rounded box-shadow">
         <h6 class="border-bottom border-gray pb-2 mb-0">Сотрудник</h6>
         <div class="media  pt-3">
-          <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
 
-              <button type="button" class="btn btn-outline-primary">Сканировать</button>
-              <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#workers">Выбрать</button>
+            <div class="media-body pb-3 mb-0 border-bottom border-gray text-center">
+                <div id="imgResult"></div>
 
-            <b>Иванов Иван Иванович</b>
+                <div class="report">
+                    <b></b>
+                </div>
+              <button type="button" name="start_ident" id="start_ident" class="btn btn-outline-primary">Сканировать</button>
+              <button type="button" name="stop_ident" id="stop_ident" class="btn btn-outline-danger" style="display: none;">Остановить сканирование</button>
+              <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#workers">Выбрать вручную</button>
 
-          </p>
+
+
+            </div>
         </div>
 </div>
 
 
-    <div class="my-3 p-3 bg-white rounded box-shadow">
+    <div class="mt-3 p-3 bg-white rounded box-shadow">
         <h6 class="border-bottom border-gray pb-2 mb-0">Оборудование</h6>
 
         <div class="media text-muted pt-3">

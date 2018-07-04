@@ -21,6 +21,7 @@ from . import views
 urlpatterns = [
 
     path('', views.Index.as_view(), name='index'),
+    path('fpregistration', views.FPregistration.as_view(), name='fpregistration'),
 
     path('admin/', admin.site.urls),
 

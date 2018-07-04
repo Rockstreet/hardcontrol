@@ -31,12 +31,15 @@ class UserInline(admin.StackedInline):
 
 
 
-
-
-
 class UserAdmin(UserAdmin):
     inlines = (UserInline,)
 
+    class Media:
+        js = (
+            'https://code.jquery.com/jquery-3.3.1.min.js',
+            # '//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js',
+            '/static/admin/js/fpregistration.js',
+        )
 
 
 

@@ -16,6 +16,7 @@ from .models import Hard_objects
 class Index(generic.TemplateView):
 	template_name = 'hardcontrol/index.html'
 
+
 	def get_context_data(self, **kwargs):
 		context = super(Index, self).get_context_data(**kwargs)
 
@@ -55,3 +56,9 @@ class Register_user(generic.CreateView):
 
 
 		return True
+
+
+class FPregistration(generic.TemplateView):
+	template_name = 'hardcontrol/fpregistration.html'
+
+
