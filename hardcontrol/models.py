@@ -23,3 +23,28 @@ class Hard_objects(models.Model):
 
 
 
+
+
+class UserProfile(models.Model):
+
+    user = models.OneToOneField(User,related_name='related_name_user', on_delete=models.CASCADE)
+    foto = models.ImageField(_("Фото"),upload_to='images/users', blank=True)
+    passport = models.CharField(_("Номер паспорта"), max_length=1000, default='', blank=True)
+    template1 = models.TextField(null=True, blank=True)
+    template2 = models.TextField(null=True, blank=True)
+    template3 = models.TextField(null=True, blank=True)
+    template4 = models.TextField(null=True, blank=True)
+    template5 = models.TextField(null=True, blank=True)
+    template6 = models.TextField(null=True, blank=True)
+    template7 = models.TextField(null=True, blank=True)
+    template8 = models.TextField(null=True, blank=True)
+    template9 = models.TextField(null=True, blank=True)
+    template10 = models.TextField(null=True, blank=True)
+
+    def __unicode__(self):
+        return self.user
+
+    class Meta:
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профили'
+
