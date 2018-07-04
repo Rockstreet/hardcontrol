@@ -76,6 +76,8 @@
 
         </script>
 
+<form action="/">
+
 <div class="mt-3 p-3 bg-white rounded box-shadow">
         <h6 class="border-bottom border-gray pb-2 mb-0">Сотрудник</h6>
         <div class="media  pt-3">
@@ -90,7 +92,18 @@
               <button type="button" name="stop_ident" id="stop_ident" class="btn btn-outline-danger" style="display: none;">Остановить сканирование</button>
               <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#workers">Выбрать вручную</button>
 
+                <div id="worker_data">
 
+                    <h1 id="worker_name">
+
+
+
+                    </h1>
+
+                    <input type="hidden" value="" id="worker_id" name="worker_id">
+                    <input type="hidden" value="" id="manual_selected" name="manual_selected" value="False">
+
+                </div>
 
             </div>
         </div>
@@ -109,50 +122,15 @@
         </div>
 
         <div id="hardw_list_output">
-       <div class="media text-muted pt-3">
-          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-            <div class="d-flex justify-content-between align-items-center w-100">
-              <strong class="text-gray-dark">Оборудование 1</strong>
-              <a href="#">Удалить</a>
-            </div>
-            <span class="d-block">Описание оборудования 1</span>
-          </div>
-        </div>
-    <div class="media text-muted pt-3">
-          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-            <div class="d-flex justify-content-between align-items-center w-100">
-              <strong class="text-gray-dark">Оборудование 2</strong>
-              <a href="#">Удалить</a>
-            </div>
-            <span class="d-block">Описание оборудования 2</span>
-          </div>
-        </div>
-    <div class="media text-muted pt-3">
-          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-            <div class="d-flex justify-content-between align-items-center w-100">
-              <strong class="text-gray-dark">Оборудование 3</strong>
-              <a href="#">Удалить</a>
-            </div>
-            <span class="d-block">Описание оборудования 3</span>
-          </div>
-        </div>
-    <div class="media text-muted pt-3">
-          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-            <div class="d-flex justify-content-between align-items-center w-100">
-              <strong class="text-gray-dark">Оборудование 4</strong>
-              <a href="#">Удалить</a>
-            </div>
-            <span class="d-block">Описание оборудования 4</span>
-          </div>
-        </div>
+
         </div>
         <small class="d-block text-right mt-3">
-                <button type="button" class="btn btn-outline-success">Выдать оборудование</button>
-            <button type="button" class="btn btn-outline-danger">Принять оборудование</button>
+                <button type="button" class="btn btn-outline-success" id="give_hard_btn">Выдать оборудование</button>
+            <button type="button" class="btn btn-outline-danger" id="">Принять оборудование</button>
         </small>
       </div>
  </div>
-
+</form>
 
 <div class="modal" tabindex="-1" role="dialog" id="workers">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -165,10 +143,17 @@
       </div>
       <div class="modal-body">
         <p>Сотрудники:</p>
+          <select name="worker_id" id="worker_select_id" class="form-control">
+                 <option value="">Выберите сотрудника</option>
+              {% for item in  worker_list %}
+                <option value="{{item.id}}">{{ item.last_name}} {{ item.first_name}}</option>
+              {% endfor %}
+
+          </select>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-        <button type="button" class="btn btn-primary">Выбрать</button>
+        <button type="button" class="btn btn-primary" id="select_worker_btn">Выбрать</button>
       </div>
     </div>
   </div>
@@ -186,8 +171,8 @@
       </div>
       <div class="modal-body">
         <p>Оборудование:</p>
-          <select name="hardw_id" class="form-control">
-
+          <select name="hardw_id" id="hardw_select_id" class="form-control">
+                 <option value="">Выберите оборудование</option>
               {% for item in  hardw_list %}
                 <option value="{{item.id}}">{{ item.title }}</option>
               {% endfor %}
@@ -196,7 +181,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-        <button type="button" class="btn btn-primary" id="select_hardw">Выбрать</button>
+        <button type="button" class="btn btn-primary" id="select_hardw" disabled>Выбрать</button>
       </div>
     </div>
   </div>

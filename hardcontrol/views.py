@@ -23,6 +23,10 @@ class Index(generic.TemplateView):
 		context['hardw_list']=Hard_objects.objects.filter(status=True).all
 
 
+		context['worker_list']=User.objects.filter(groups__name='Сотрудники')
+
+		print(context['worker_list'])
+
 
 		return context
 
