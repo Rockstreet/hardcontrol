@@ -10,3 +10,8 @@ from .models import Hard_objects
 
 class Index(generic.TemplateView):
 	template_name = 'hardcontrol/index.html'
+
+
+class FPregistration(generic.TemplateView):
+	template_name = 'hardcontrol/fpregistration.html'
+

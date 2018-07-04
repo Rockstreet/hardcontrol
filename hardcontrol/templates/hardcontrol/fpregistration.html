@@ -1,10 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Регистрация отпечатка пальца</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <script type="text/javascript" charset="utf-8">
+            var lastMsg;
+            var lastMsg_ident;
+            var socketio = null;
+            var namespace = "/work";
+            function showImg() {
+                $.get( location.protocol + '//' + document.domain + ':' + 5000 + "/img", function( data ) {
+                    if (data != '')
+                        $( "#imgResult" ).html( "<img src='data:image/png;base64, " + data + "' width='150'>");
+                });
+            }
+
+            function connect() {
+
+                socketio = io.connect(
+                    location.protocol + '//' + document.domain + ':' + 5000 + namespace
+                );
+                socketio.off().on("re_connect", function(msg) {
+                    console.log("Соединение со сканером установлено");
+                    $(".report").html(msg.msg + "<br />");
+                });
+            }
+
+            function start() {
+                socketio.emit("start");
+            }
+
+            function stop() {
+                socketio.emit("stop");
+            }
+
+            function show_btn() {
+                $("#stop").hide();
+                $("#start").show();
+                $("#imgResult").html("");
+            }
+            function show_stop_btn() {
+                $("#start").hide();
+                $("#stop").show();
+                $("#imgResult").html("");
+            }
+
+            $(document).ready(function() {
+
+               connect();
+               socketio.on("update", function(msg) {
+                        //console.log(msg.user_id);
+                        if (msg.callback !== undefined) {
+                            if (msg.callback === "updateimg") {
+                                showImg();
+                            }
+                        }
+                        if (msg.template !== undefined) {
+                            if (msg.template !== "") {
+                                show_btn();
+                                window.opener.setTemplate('1', msg.template);
+                            } else {
+                                show_btn();
+                            }
+                            showImg();
+                        }
+                        $(".report").html(msg.msg + "<br />");
+                    //}
+                });
+
+                // identification
+                $("#start").click(function() {
+                    start();
+                    show_stop_btn();
+                });
+                $("#stop").click(function() {
+                    stop();
+                    show_btn();
+                });
+
+            });
+
+        </script>
+
+
 </head>
 <body>
-$END$
+    <div class="media-body pb-3 mb-0 border-bottom border-gray text-center">
+        <div id="imgResult"></div>
+
+        <div class="report">
+            <b></b>
+        </div>
+
+        <button type="button" name="start" id="start" class="btn btn-outline-primary">Сканировать</button>
+        <button type="button" name="stop" id="stop" class="btn btn-outline-danger" style="display: none;">Остановить сканирование</button>
+        <button type="button" name="close" id="close" class="btn btn-outline-danger" style="display: none;">Остановить сканирование</button>
+    </div>
 </body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </html>

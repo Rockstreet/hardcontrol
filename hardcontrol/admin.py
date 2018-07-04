@@ -23,9 +23,16 @@ class UserInline(admin.StackedInline):
     verbose_name_plural = 'Доп. информация'
 
 
+
 class UserAdmin(UserAdmin):
     inlines = (UserInline,)
 
+    class Media:
+        js = (
+            'https://code.jquery.com/jquery-3.3.1.min.js',
+            # '//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js',
+            '/static/admin/js/fpregistration.js',
+        )
 
 # Перерегистрируем модель User
 admin.site.unregister(User)
