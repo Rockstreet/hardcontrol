@@ -1,13 +1,20 @@
 from django.conf.urls import url
 
+from django.http import HttpResponse,JsonResponse
+
 from django.views import generic
 
 from django.contrib.auth.models import User
 
-from .models import UserProfile
+from .models import UserProfile, Hard_objects, HardOnWorker, HardTransaction
 
 from django.views.generic import CreateView
 
+from django.core.serializers.json import DjangoJSONEncoder
+
+from django.core import serializers
+
+import json
 
 from .models import Hard_objects
 
@@ -64,5 +71,73 @@ class Register_user(generic.CreateView):
 
 class FPregistration(generic.TemplateView):
 	template_name = 'hardcontrol/fpregistration.html'
+
+
+def hard_output(request):
+    hard_id = None
+    if request.method == 'GET':
+        hard_id = request.GET['hard_id']
+        worker_id =  request.GET['worker_id']
+
+    hard_object=Hard_objects.objects.get(pk=hard_id)
+    hard_object.status=False
+    hard_object.save()
+
+    hard_transaction=HardTransaction(type=True, worker_id=User.objects.get(pk=worker_id), hard_id=Hard_objects.objects.get(pk=hard_id));
+    hard_transaction.save()
+
+    hard_on_worker=HardOnWorker(worker_id=User.objects.get(pk=worker_id), hard_id=Hard_objects.objects.get(pk=hard_id))
+    hard_on_worker.save()
+
+
+
+    return HttpResponse(hard_id)
+
+def get_worker(request):
+    worker_id = None
+    if request.method == 'GET':
+        worker_id =  request.GET['worker_id']
+    worker=User.objects.get(pk=worker_id)
+
+    s = serializers.serialize('json', [worker])
+    # s is a string with [] around it, so strip them off
+    worker_obj = s.strip("[]")
+
+
+    return HttpResponse(worker_obj)
+
+def get_worker_hard(request):
+    worker_id = None
+    if request.method == 'GET':
+        worker_id = request.GET['worker_id']
+    worker = User.objects.get(pk=worker_id)
+
+
+
+    hard_objects=HardOnWorker.objects.filter(worker_id=worker)
+
+    s = serializers.serialize('json', hard_objects)
+
+    print(hard_objects)
+
+    #structure= s.strip("[]")
+
+    return HttpResponse(s)
+
+
+def get_hard_object(request):
+    hard_id = None
+    if request.method == 'GET':
+        hard_id =  request.GET['hard_id']
+    hard=Hard_objects.objects.get(pk=hard_id)
+
+    s = serializers.serialize('json', [hard])
+
+    hard_obj = s.strip("[]")
+
+
+    return HttpResponse(hard_obj)
+
+
 
 

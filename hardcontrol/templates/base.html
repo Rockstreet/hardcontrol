@@ -87,6 +87,76 @@
 
         }
 
+        function select_worker(worker_id,manual_select)
+        {
+
+            var this_worker;
+
+            $.getJSON('get_worker/', {worker_id:worker_id}, function(data){
+
+
+                //console.log(data);
+
+                $('#worker_name').html(data.fields.first_name+' '+data.fields.last_name);
+
+                $('#worker_id').val(data.pk);
+
+                get_worker_hard(data.pk);
+
+                });
+
+
+
+              if(manual_select==1) $('#manual_selected').val('True');
+
+              $('#workers').modal('hide');
+
+        }
+
+        function get_worker_hard(worker_id)
+        {
+            $('#hardw_list_input').html('');
+            $.getJSON('get_worker_hard/', {worker_id:worker_id}, function(data1){
+
+                console.log(data1);
+
+                $.each( data1, function( key, val ) {
+
+                 //  console.log(val.fields.hard_id);
+
+                   $.getJSON('get_hard_object', {hard_id:val.fields.hard_id}, function(data2){
+
+                       var date = new Date(val.fields.datetime);
+                       var mon = ('0'+(1+date.getMonth())).replace(/.?(\d{2})/,'$1');
+                       var a=date.toString().replace(/^[^\s]+\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s.*$/ig,'$2.'+mon+'.$3 $4');
+
+
+
+
+
+                      $('#hardw_list_input').append(' <div id="item_inp" class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">\n' +
+                  '            <div class="d-flex justify-content-between align-items-center w-100">\n' +
+                  '              <strong class="text-gray-dark">'+data2.fields.title+'</strong>\n' +
+                  'Выдано: '+ a +
+                  '<input type="checkbox" class="">' +
+                  '            </div>\n' +
+                  '            <span class="d-block"><br></span>\n' +
+                  ''+
+                  '          </div>');
+
+
+
+
+                   });
+
+
+
+                        });
+
+                });
+
+        }
+
 
 
 
@@ -105,10 +175,11 @@
               $('#hardw_list_output').append(' <div id="item'+hard_id+'" class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">\n' +
                   '            <div class="d-flex justify-content-between align-items-center w-100">\n' +
                   '              <strong class="text-gray-dark">'+hard_name+'</strong>\n' +
-                  '              <a onclick="rem_item('+hard_id+')" style="cursor:pointer;" id="rem'+hard_id+' class="rem_item"">Удалить</a>\n' +
+                  '              <a onclick="rem_item('+hard_id+')" style="cursor:pointer;" id="rem'+hard_id+'" class="rem_item"">Удалить</a>\n' +
                   '            </div>\n' +
                   '            <span class="d-block"><br></span>\n' +
-                  '<input type="hidden" name="hads_id[]" value="'+hard_id+'">' +
+                  '<input type="hidden" class="hard_id" name="hads_id" value="'+hard_id+'">' +
+                  '<input type="hidden" class="not_stock" name="not_stock[]" value="'+hard_name+'">' +
                   '          </div>');
 
               $('#hardw_select_id').find('option:selected').removeAttr("selected");
@@ -144,21 +215,45 @@
 
           $('#select_worker_btn').click(function () {
 
-              var worker_name = $('#worker_select_id').find('option:selected').text();
+
               var worker_id = $('#worker_select_id').find('option:selected').val();
 
-              $('#worker_name').html(worker_name);
-              $('#worker_id').val(worker_id);
-              $('#manual_selected').val('True');
+              select_worker(worker_id,1);
 
-              $('#workers').modal('hide');
+
 
 
           });
 
           $('#give_hard_btn').click(function(){
-              alert('sadas');
+
+        if ($('#worker_id').val()!='') {
+
+
+
+            $.each($('.hard_id'),function () {
+
+                $.get('hard_output/', {hard_id: $(this).val(), worker_id:$('#worker_id').val()}, function(data){
+
+                $('#rem'+data).after('<font color=green>Выдано</font>');
+
+                $('#rem'+data).remove();
+
+                });
+
+            $('#in_pocess').remove();
+
+            $('#sucess').attr('class','d-block text-right mt-3');
+
+
+            });
+
+              }
+
+              else alert('Сотрудник не выбран');
+
           });
+
 
 
       });

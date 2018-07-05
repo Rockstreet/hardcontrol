@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.auth.models import User
 
+
 from sorl.thumbnail import ImageField
 
 class Hard_objects(models.Model):
@@ -59,3 +60,15 @@ class UserProfile(models.Model):
         verbose_name = 'Профиль'
         verbose_name_plural = 'Профили'
 
+class HardTransaction(models.Model):
+    type = models.BooleanField(_("Выдача/Прием"), default=True )
+    datetime = models.DateTimeField(_("Дата операции"), auto_now=True, editable=False, null=True)
+    worker_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    hard_id = models.ForeignKey(Hard_objects, on_delete=models.CASCADE)
+    select_auto = models.BooleanField(_("Выбрано автоматически"), default=False )
+
+class HardOnWorker(models.Model):
+    datetime = models.DateTimeField(_("Дата выдачи"), auto_now=True, editable=False, null=True)
+    worker_id = models.ForeignKey(User,  on_delete=models.CASCADE)
+    hard_id = models.ForeignKey(Hard_objects,  on_delete=models.CASCADE)
+    select_auto = models.BooleanField(_("Выбрано автоматически"), default=False)

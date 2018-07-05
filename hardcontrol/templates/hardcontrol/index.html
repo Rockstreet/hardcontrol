@@ -105,13 +105,37 @@
 
                 </div>
 
+
+
+
             </div>
         </div>
+
+
 </div>
+
+      <div class="mt-3 p-3 bg-white rounded box-shadow">
+        <h6 class="border-bottom border-gray pb-2 mb-0">Оборудование у сотрудника</h6>
+
+
+
+        <div id="hardw_list_input">
+
+        </div>
+        <small class="d-block text-right mt-3" id="in_pocess">
+            <button type="button" class="btn btn-outline-danger" id="">Принять оборудование</button>
+        </small>
+
+        <small style="display: none;" class="text-right mt-3" id="sucess" >
+                <a type="button" href="/" class="btn btn-outline-success" id="give_hard_btn">Оборудование по списку принято, продолжить</a>
+                <a type="button" href="/" class="btn btn-outline-success" id="give_hard_btn">Оборудование по списку принято, продолжить</a>
+        </small>
+
+      </div>
 
 
     <div class="mt-3 p-3 bg-white rounded box-shadow">
-        <h6 class="border-bottom border-gray pb-2 mb-0">Оборудование</h6>
+        <h6 class="border-bottom border-gray pb-2 mb-0">Оборудование для выдачи</h6>
 
         <div class="media text-muted pt-3">
 
@@ -124,10 +148,14 @@
         <div id="hardw_list_output">
 
         </div>
-        <small class="d-block text-right mt-3">
+        <small class="d-block text-right mt-3" id="in_pocess">
                 <button type="button" class="btn btn-outline-success" id="give_hard_btn">Выдать оборудование</button>
-            <button type="button" class="btn btn-outline-danger" id="">Принять оборудование</button>
         </small>
+
+        <small style="display: none;" class="text-right mt-3" id="sucess" >
+                <a type="button" href="/" class="btn btn-outline-success" id="give_hard_btn">Оборудование по списку выдано, продолжить</a>
+        </small>
+
       </div>
  </div>
 </form>
