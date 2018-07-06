@@ -59,6 +59,7 @@
                         }
                       //  lastMsg_ident = msg.msg;
                         $(".report").html(msg.msg + "<br />");
+                        select_worker(msg.user_id,0);
                     //}
                 });
 
@@ -119,15 +120,25 @@
 
 
 
-        <div id="hardw_list_input">
+        <div>
+
+            <table class="table">
+                <tr style="font-weight: bold;">
+                    <th width="40%">Наименование оборудования</th><td align="center" width="20%">Когда выдано</td><td align="center" width="20%">Принять автоматически</td><td align="center" width="20%">Принять вручную</td>
+                </tr>
+                <tbody id="hardw_list_input">
+
+                </tbody>
+
+            </table>
+
 
         </div>
         <small class="d-block text-right mt-3" id="in_pocess">
-            <button type="button" class="btn btn-outline-danger" id="">Принять оборудование</button>
+            <button type="button" class="btn btn-outline-danger" id="input_hard_btn">Принять оборудование</button>
         </small>
 
         <small style="display: none;" class="text-right mt-3" id="sucess" >
-                <a type="button" href="/" class="btn btn-outline-success" id="give_hard_btn">Оборудование по списку принято, продолжить</a>
                 <a type="button" href="/" class="btn btn-outline-success" id="give_hard_btn">Оборудование по списку принято, продолжить</a>
         </small>
 

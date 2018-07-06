@@ -134,15 +134,18 @@
 
 
 
-                      $('#hardw_list_input').append(' <div id="item_inp" class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">\n' +
-                  '            <div class="d-flex justify-content-between align-items-center w-100">\n' +
-                  '              <strong class="text-gray-dark">'+data2.fields.title+'</strong>\n' +
-                  'Выдано: '+ a +
-                  '<input type="checkbox" class="">' +
-                  '            </div>\n' +
-                  '            <span class="d-block"><br></span>\n' +
-                  ''+
-                  '          </div>');
+                  {#    $('#hardw_list_input').append(' <div id="item_inp" class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">\n' +#}
+                  {#'            <div class="d-flex justify-content-between align-items-center w-100">\n' +#}
+                  {#'              <strong class="text-gray-dark">'+data2.fields.title+'</strong>\n' +#}
+                  {#'Выдано: '+ a +#}
+                  {#'<input type="checkbox" class="">' +#}
+                  {#'            </div>\n' +#}
+                  {#'            <span class="d-block"><br></span>\n' +#}
+                  {#''+#}
+                  {#'          </div>');#}
+
+
+                       $('#hardw_list_input').append('<tr><td>'+data2.fields.title+'</td><td align="center">'+a+'</td><td align="center"><input type="checkbox" disabled="disabled" class=""></td><td align="center"><input type="checkbox" class=""></td></tr>');
 
 
 
@@ -254,7 +257,10 @@
 
           });
 
+         $('#input_hard_btn').click(function () {
 
+             alert('Прием оборудования');
+         });
 
       });
 
