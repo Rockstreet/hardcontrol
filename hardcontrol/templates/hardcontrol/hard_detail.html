@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+    <div class="mt-3 p-3 bg-white rounded box-shadow">
+        <h6 class="border-bottom border-gray pb-2 mb-0">Оборудование</h6>
+        <div class="media  pt-3">
+
+            <div class="media-body pb-3 mb-0 border-bottom border-gray">
+
+            <h2>{{ hard_objects.title }}</h2>
+
+                {% if hard_objects.meta_description %}Описание оборудования: {{ hard_objects.meta_description }}<br>{% endif %}
+                {% if hard_objects.number1 %}Инвентарный (заводской) номер средства связи: {{ hard_objects.number1 }}<br>{% endif %}
+                {% if hard_objects.number2 %}Инвентарный (заводской) номер инженерно-технического средства: {{ hard_objects.number2 }}<br>{% endif %}
+                {% if hard_objects.name %}Наименование инженерно-технического средств: {{ hard_objects.name }}<br>{% endif %}
+                {% if hard_objects.name_rem %}Наименование ремонтных комплектов: {{ hard_objects.name_rem }}<br>{% endif %}
+                {% if hard_objects.number_reg %}Номер свидетельства о регистрации: {{ hard_objects.number_reg}}<br>{% endif %}
+                {% if hard_objects.number_name %}Марка транспортного средства: {{ hard_objects.number_name}}<br>{% endif %}
+                <br>
+
+            {%  if hard_objects.status %}
+                <h3>Оборудование на складе</h3>
+            {% else %}
+
+                <b>Оборудование выдано</b>: <a href="#">{{ this_worker.first_name }} {{ this_worker.last_name }}</a>
+                <br>
+                <b>Дата выдачи:</b> {{ this_worker_data }}
+
+
+
+             {% endif %}
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mt-3 p-3 bg-white rounded box-shadow">
+        <h6 class="border-bottom border-gray pb-2 mb-0"><b>Операции</b></h6>
+        <div class="media  pt-3">
+
+            <table class="media-body pb-3 mb-0 border-bottom border-gray">
+
+            <table class="table">
+                <tr>
+                    <th>
+                        Тип
+                    </th>
+                    <th>
+                        Дата/Время
+                    </th>
+                    <th>
+                        Наименование оборудования
+                    </th>
+                    <th>
+                        Сотрудник
+                    </th>
+                    <th>
+                        Способ выдачи
+                    </th>
+                </tr>
+
+
+ {% for list in hardtransaction_list %}
+
+<tr {% if list.type %}class="table-danger"{% else %} class="table-success"{% endif %}>
+<td>
+{% if list.type %}Выдача{% else %}
+    Прием
+{% endif %}
+</td>
+
+        <td>
+            {{ list.datetime }}
+        </td>
+<td>
+
+    {{ list.hard_id }}
+
+</td>
+
+<td>
+            {{ list.worker_id.first_name }} {{ list.worker_id.last_name }}
+        </td>
+
+<td>
+{% if list.select_auto %}По RFID{% else %}
+    Вручную
+{% endif %}
+</td>
+
+
+     </tr>
+
+
+ {% endfor  %}
+
+</table>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

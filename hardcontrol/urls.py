@@ -31,4 +31,10 @@ urlpatterns = [
     path('get_worker/', views.get_worker, name='get_worker'),
     path('get_worker_hard/', views.get_worker_hard, name='get_worker_hard'),
     path('get_hard_object/', views.get_hard_object, name='get_hard_object'),
+    path('hard_input/', views.hard_input, name='hard_input'),
+    path('list_operations/', views.ListOperations.as_view(), name='list_operations'),
+    path('hard_detail/<pk>', views.HardDetail.as_view(), name='hard_detail'),
+
+
+
 ]

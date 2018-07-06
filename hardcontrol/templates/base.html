@@ -30,14 +30,16 @@
 
       <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Прием/Выдача <span class="sr-only">(current)</span></a>
+        {% url 'index' as url %}
+          <li class="nav-item {% if request.path == url %} active {% endif %}">
+            <a class="nav-link" href="{{ url }}">Прием/Выдача <span class="sr-only">(current)</span></a>
+          </li>
+        {% url 'list_operations' as url %}
+          <li class="nav-item {% if request.path == url %} active {% endif %}">
+            <a class="nav-link" href="{{ url }}">Список операций</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Список операций</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">Работа с оборудованием</a>
+            <a class="nav-link" href="">Оборудование</a>
           </li>
 
 {#            <li class="nav-item">#}
@@ -77,7 +79,25 @@
 
   <script language="JavaScript">
 
-        function rem_item(id)
+
+
+      function hard_input(id,manual)
+      {
+          $.get('hard_input/', {hard_id: id, worker_id:$('#worker_id').val()}, function(data){
+
+                $('#inputrem'+data).remove();
+
+                });
+
+          alert('Оборудование принято');
+          window.location.href='/';
+
+      }
+
+
+
+
+      function rem_item(id)
         {
 
             $("#item"+id).remove();
@@ -102,6 +122,9 @@
                 $('#worker_id').val(data.pk);
 
                 get_worker_hard(data.pk);
+
+                $("#give_hard_btn").removeAttr('disabled');
+                $("#input_hard_btn").removeAttr('disabled');
 
                 });
 
@@ -145,7 +168,7 @@
                   {#'          </div>');#}
 
 
-                       $('#hardw_list_input').append('<tr><td>'+data2.fields.title+'</td><td align="center">'+a+'</td><td align="center"><input type="checkbox" disabled="disabled" class=""></td><td align="center"><input type="checkbox" class=""></td></tr>');
+                       $('#hardw_list_input').append('<tr id="inputrem'+data2.pk+'"><td>'+data2.fields.title+'</td><td align="center">'+a+'</td><td align="center"><input type="checkbox" disabled="disabled" class=""></td><td align="center"><input type="checkbox" value="'+data2.pk+'" class="select_manual"></td></tr>');
 
 
 
@@ -244,9 +267,12 @@
 
                 });
 
-            $('#in_pocess').remove();
+            {#$('#in_pocess').remove();#}
+            {##}
+            {#$('#sucess').attr('class','d-block text-right mt-3');#}
 
-            $('#sucess').attr('class','d-block text-right mt-3');
+                alert('Оборудование выдано');
+                window.location.href='/';
 
 
             });
@@ -259,7 +285,15 @@
 
          $('#input_hard_btn').click(function () {
 
-             alert('Прием оборудования');
+
+             $(".select_manual:checkbox:checked").each(function () {
+
+                 hard_input($(this).val(),1);
+
+             });
+
+
+
          });
 
       });

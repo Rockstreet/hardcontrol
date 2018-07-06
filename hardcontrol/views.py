@@ -69,6 +69,41 @@ class Register_user(generic.CreateView):
 		return True
 
 
+class ListOperations(generic.ListView):
+
+
+    model = HardTransaction
+    ordering = ['-datetime']
+    template_name = 'hardcontrol/list_operations.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ListOperations, self).get_context_data(**kwargs)
+        return context
+
+class HardDetail(generic.DetailView):
+
+    model = Hard_objects
+    template_name = 'hardcontrol/hard_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(HardDetail, self).get_context_data(**kwargs)
+
+        if self.object.status==False:
+            context['this_worker'] = HardOnWorker.objects.filter(hard_id=self.object.pk).last().worker_id
+            context['this_worker_data'] = HardOnWorker.objects.filter(hard_id=self.object.pk).last().datetime
+
+
+
+
+
+
+        return context
+
+
+
+
+
+
 class FPregistration(generic.TemplateView):
 	template_name = 'hardcontrol/fpregistration.html'
 
@@ -139,5 +174,21 @@ def get_hard_object(request):
     return HttpResponse(hard_obj)
 
 
+def hard_input(request):
+    hard_id = None
+    if request.method == 'GET':
+        hard_id = request.GET['hard_id']
+        worker_id = request.GET['worker_id']
 
+    hard_object = Hard_objects.objects.get(pk=hard_id)
+    hard_object.status = True
+    hard_object.save()
+
+    hard_transaction = HardTransaction(type=False, worker_id=User.objects.get(pk=worker_id),
+                                       hard_id=Hard_objects.objects.get(pk=hard_id));
+    hard_transaction.save()
+
+    hard_on_worker = HardOnWorker.objects.filter(hard_id=Hard_objects.objects.get(pk=hard_id)).delete()
+
+    return HttpResponse(hard_id)
 

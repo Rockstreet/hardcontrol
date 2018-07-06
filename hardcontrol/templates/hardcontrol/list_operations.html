@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+    <div class="mt-3 p-3 bg-white rounded box-shadow">
+        <h6 class="border-bottom border-gray pb-2 mb-0">Опции</h6>
+        <div class="media  pt-3">
+
+            <div class="media-body pb-3 mb-0 border-bottom border-gray">
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mt-3 p-3 bg-white rounded box-shadow">
+        <h6 class="border-bottom border-gray pb-2 mb-0"><b>Операции</b></h6>
+        <div class="media  pt-3">
+
+            <table class="media-body pb-3 mb-0 border-bottom border-gray">
+
+            <table class="table">
+                <tr>
+                    <th>
+                        Тип
+                    </th>
+                    <th>
+                        Дата/Время
+                    </th>
+                    <th>
+                        Наименование оборудования
+                    </th>
+                    <th>
+                        Сотрудник
+                    </th>
+                    <th>
+                        Способ выдачи
+                    </th>
+                </tr>
+
+
+ {% for list in hardtransaction_list %}
+
+<tr {% if list.type %}class="table-danger"{% else %} class="table-success"{% endif %}>
+<td>
+{% if list.type %}Выдача{% else %}
+    Прием
+{% endif %}
+</td>
+
+        <td>
+            {{ list.datetime }}
+        </td>
+<td>
+
+    <a href="{% url 'hard_detail' list.hard_id.pk %}"> {{ list.hard_id }}</a>
+
+</td>
+
+<td>
+            {{ list.worker_id.first_name }} {{ list.worker_id.last_name }}
+        </td>
+
+<td>
+{% if list.select_auto %}По RFID{% else %}
+    Вручную
+{% endif %}
+</td>
+
+
+     </tr>
+
+
+ {% endfor  %}
+
+</table>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
