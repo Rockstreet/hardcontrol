@@ -23,7 +23,7 @@
                 <h3>Оборудование на складе</h3>
             {% else %}
 
-                <b>Оборудование выдано</b>: <a href="#">{{ this_worker.first_name }} {{ this_worker.last_name }}</a>
+                <b>Оборудование выдано</b>: <a href="{% url 'worker_detail' this_worker.pk  %}">{{ this_worker.first_name }} {{ this_worker.last_name }}</a>
                 <br>
                 <b>Дата выдачи:</b> {{ this_worker_data }}
 
@@ -40,8 +40,8 @@
 
 
     <div class="mt-3 p-3 bg-white rounded box-shadow">
-        <h6 class="border-bottom border-gray pb-2 mb-0"><b>Операции</b></h6>
-        <div class="media  pt-3">
+        <h6 class="  pb-2 mb-0"><b>Операции</b></h6>
+
 
             <table class="media-body pb-3 mb-0 border-bottom border-gray">
 
@@ -53,9 +53,7 @@
                     <th>
                         Дата/Время
                     </th>
-                    <th>
-                        Наименование оборудования
-                    </th>
+
                     <th>
                         Сотрудник
                     </th>
@@ -77,14 +75,13 @@
         <td>
             {{ list.datetime }}
         </td>
-<td>
 
-    {{ list.hard_id }}
-
-</td>
 
 <td>
+
+          <a href="{% url 'worker_detail' list.worker_id.pk  %}">
             {{ list.worker_id.first_name }} {{ list.worker_id.last_name }}
+          </a>
         </td>
 
 <td>
@@ -102,7 +99,7 @@
 </table>
 
 
-            </div>
+
         </div>
     </div>
 

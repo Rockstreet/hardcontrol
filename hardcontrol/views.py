@@ -92,12 +92,24 @@ class HardDetail(generic.DetailView):
             context['this_worker'] = HardOnWorker.objects.filter(hard_id=self.object.pk).last().worker_id
             context['this_worker_data'] = HardOnWorker.objects.filter(hard_id=self.object.pk).last().datetime
 
-
-
-
-
+        context['hardtransaction_list'] = HardTransaction.objects.filter(hard_id=self.object.pk).order_by('-datetime')
 
         return context
+
+
+class WorkerDetail(generic.DetailView):
+    model = User
+    template_name = 'hardcontrol/worker_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(WorkerDetail, self).get_context_data(**kwargs)
+
+        context['hard_on_worker'] = HardOnWorker.objects.filter(worker_id=self.object.pk)
+
+        context['hardtransaction_list'] = HardTransaction.objects.filter(worker_id=self.object.pk).order_by('-datetime')
+
+        return context
+
 
 
 
