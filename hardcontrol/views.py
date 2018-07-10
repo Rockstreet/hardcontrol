@@ -18,6 +18,12 @@ import json
 
 from .models import Hard_objects
 
+from django.http import HttpResponseRedirect
+
+from django.shortcuts import render
+
+from django.contrib.auth import authenticate, login, logout
+
 
 
 class Index(generic.TemplateView):
@@ -106,9 +112,39 @@ class WorkerDetail(generic.DetailView):
 
         context['hard_on_worker'] = HardOnWorker.objects.filter(worker_id=self.object.pk)
 
+        context['worker']=context['user']
+
+        context['user'] = manager_id=self.request.user
+
         context['hardtransaction_list'] = HardTransaction.objects.filter(worker_id=self.object.pk).order_by('-datetime')
 
         return context
+
+
+
+class LoginPage(generic.View):
+
+
+    template_name = 'hardcontrol/login_page.html'
+
+    def get(self, request, *args, **kwargs):
+
+        return render(request, self.template_name, {'form': 'form'})
+
+
+    def post(self, request, *args, **kwargs):
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+
+
+        if user is not None:
+                if user.groups.filter(name__in=['Менеджеры выдачи']).exists():
+                    login(request, user)
+                    return HttpResponseRedirect('/')
+
+        return render(request, self.template_name, {'error': 'Неверный Логин или Пароль'})
 
 
 
@@ -130,10 +166,10 @@ def hard_output(request):
     hard_object.status=False
     hard_object.save()
 
-    hard_transaction=HardTransaction(type=True, worker_id=User.objects.get(pk=worker_id), hard_id=Hard_objects.objects.get(pk=hard_id));
+    hard_transaction=HardTransaction(type=True, worker_id=User.objects.get(pk=worker_id), hard_id=Hard_objects.objects.get(pk=hard_id),manager_id=request.user)
     hard_transaction.save()
 
-    hard_on_worker=HardOnWorker(worker_id=User.objects.get(pk=worker_id), hard_id=Hard_objects.objects.get(pk=hard_id))
+    hard_on_worker=HardOnWorker(worker_id=User.objects.get(pk=worker_id), hard_id=Hard_objects.objects.get(pk=hard_id),manager_id=request.user)
     hard_on_worker.save()
 
 
@@ -203,4 +239,10 @@ def hard_input(request):
     hard_on_worker = HardOnWorker.objects.filter(hard_id=Hard_objects.objects.get(pk=hard_id)).delete()
 
     return HttpResponse(hard_id)
+
+def exit(request):
+
+    logout(request)
+
+    return HttpResponseRedirect('/login_page/')
 

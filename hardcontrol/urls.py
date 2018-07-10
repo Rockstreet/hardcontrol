@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from django.conf.urls import url, include
+
 from . import views
 
 urlpatterns = [
@@ -35,7 +37,7 @@ urlpatterns = [
     path('list_operations/', views.ListOperations.as_view(), name='list_operations'),
     path('hard_detail/<pk>', views.HardDetail.as_view(), name='hard_detail'),
     path('worker_detail/<pk>', views.WorkerDetail.as_view(), name='worker_detail'),
-
-
+    path('login_page/', views.LoginPage.as_view(), name='login_page'),
+    path('exit/', views.exit, name='exit'),
 
 ]

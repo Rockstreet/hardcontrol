@@ -39,7 +39,10 @@
                         Сотрудник
                     </th>
                     <th>
-                        Способ выдачи
+                        Способ выбора
+                    </th>
+                    <th>
+                        Менджер
                     </th>
                 </tr>
 
@@ -72,6 +75,10 @@
 {% if list.select_auto %}По RFID{% else %}
     Вручную
 {% endif %}
+</td>
+
+<td>
+{{ list.manager_id.first_name }} {{ list.manager_id.last_name }}
 </td>
 
 
