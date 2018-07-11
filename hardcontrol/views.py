@@ -120,6 +120,14 @@ class WorkerDetail(generic.DetailView):
 
         return context
 
+class HardList(generic.ListView):
+    model = Hard_objects
+    template_name = 'hardcontrol/hard_list.html'
+
+class WorkerList(generic.ListView):
+    model = User
+    template_name = 'hardcontrol/worker_list.html'
+
 
 
 class LoginPage(generic.View):

@@ -38,8 +38,8 @@
           <li class="nav-item {% if request.path == url %} active {% endif %}">
             <a class="nav-link" href="{{ url }}">Список операций</a>
           </li>
-          <li class="nav-item {% if request.resolver_match.url_name == 'hard_detail' %} active {% endif %}>">
-            <a class="nav-link" href=""> Оборудование </a>
+          <li class="nav-item {% if request.resolver_match.url_name == 'hard_list' %} active {% endif %}{% if request.resolver_match.url_name == 'hard_detail' %} active {% endif %}>">
+            <a class="nav-link" href="{% url 'hard_list' %}"> Оборудование </a>
           </li>
 
         <li class="nav-item {% if request.resolver_match.url_name == 'worker_detail' %} active {% endif %}>">

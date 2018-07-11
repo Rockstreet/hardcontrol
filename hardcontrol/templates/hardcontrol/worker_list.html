@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+    <div class="mt-3 p-3 bg-white rounded box-shadow">
+        <h6 class="border-bottom border-gray pb-2 mb-0">Поиск по сотрудникам</h6>
+        <div class="media  pt-3">
+
+            <div class="media-body pb-3 mb-0 border-bottom border-gray">
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mt-3 p-3 bg-white rounded box-shadow">
+        <h6 class="pb-2 mb-0"><b>Сотрудники</b></h6>
+        <div class="media  pt-3">
+
+            <table class="media-body pb-3 mb-0 border-bottom border-gray">
+
+            <table class="table">
+
+
+
+ {% for list in object_list %}
+
+<tr>
+<td>
+    <a href="{% url 'worker_detail' list.pk %}"> {{ list.first_name }} {{ list.last_name }} </a>
+</td>
+
+     </tr>
+
+
+ {% endfor  %}
+
+</table>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
