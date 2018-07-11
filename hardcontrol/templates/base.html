@@ -159,6 +159,18 @@
 
         }
 
+        function unselect_worker()
+        {
+             $('#worker_name').html('');
+
+            $('#worker_id').val();
+
+            $("#give_hard_btn").attr('disabled','disabled');
+
+            $("#input_hard_btn").attr('disabled','disabled');
+
+        }
+
         function get_worker_hard(worker_id)
         {
             $('#hardw_list_input').html('');

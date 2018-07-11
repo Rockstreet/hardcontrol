@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/hardcontrol/templates/base.html" line="161" mnemonic="3" />
+    <bookmark url="file://$PROJECT_DIR$/hardcontrol/templates/base.html" line="173" mnemonic="3" />
     <bookmark url="file://$PROJECT_DIR$/hardcontrol/views.py" line="139" mnemonic="2" />
-    <bookmark url="file://$PROJECT_DIR$/hardcontrol/templates/hardcontrol/index.html" line="41" mnemonic="1" />
+    <bookmark url="file://$PROJECT_DIR$/hardcontrol/templates/base.html" line="167" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="870f60d3-c866-4703-8a13-e20dd36deced" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hardcontrol/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/hardcontrol/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hardcontrol/templates/hardcontrol/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/hardcontrol/templates/hardcontrol/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hardcontrol/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/hardcontrol/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -157,8 +156,8 @@
       <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hardcontrol/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3034">
-              <caret line="118" selection-start-line="118" selection-end-line="118" />
+            <state relative-caret-position="1295">
+              <caret line="161" column="32" selection-start-line="161" selection-start-column="17" selection-end-line="161" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -187,8 +186,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hardcontrol/templates/hardcontrol/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="49" column="34" lean-forward="true" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="34" />
+            <state relative-caret-position="286">
+              <caret line="50" column="34" selection-start-line="50" selection-start-column="34" selection-end-line="50" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -218,6 +217,7 @@
       <find>TEMPLATE_CONTEXT_PROCESSORS</find>
       <find>Мене</find>
       <find>input</find>
+      <find>attr</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -232,13 +232,13 @@
         <option value="$PROJECT_DIR$/hardcontrol/admin.py" />
         <option value="$PROJECT_DIR$/hardcontrol/templates/hardcontrol/login_page.html" />
         <option value="$PROJECT_DIR$/hardcontrol/settings.py" />
-        <option value="$PROJECT_DIR$/hardcontrol/templates/base.html" />
         <option value="$PROJECT_DIR$/hardcontrol/urls.py" />
         <option value="$PROJECT_DIR$/hardcontrol/models.py" />
         <option value="$PROJECT_DIR$/hardcontrol/templates/hardcontrol/list_operations.html" />
         <option value="$PROJECT_DIR$/hardcontrol/templates/hardcontrol/hard_detail.html" />
         <option value="$PROJECT_DIR$/hardcontrol/templates/hardcontrol/worker_detail.html" />
         <option value="$PROJECT_DIR$/hardcontrol/views.py" />
+        <option value="$PROJECT_DIR$/hardcontrol/templates/base.html" />
         <option value="$PROJECT_DIR$/hardcontrol/templates/hardcontrol/index.html" />
       </list>
     </option>
@@ -757,15 +757,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/hardcontrol/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3034">
-          <caret line="118" selection-start-line="118" selection-end-line="118" />
+        <state relative-caret-position="1295">
+          <caret line="161" column="32" selection-start-line="161" selection-start-column="17" selection-end-line="161" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hardcontrol/templates/hardcontrol/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="49" column="34" lean-forward="true" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="34" />
+        <state relative-caret-position="286">
+          <caret line="50" column="34" selection-start-line="50" selection-start-column="34" selection-end-line="50" selection-end-column="34" />
         </state>
       </provider>
     </entry>
