@@ -39,11 +39,15 @@
                 $("#stop_ident").hide();
                 $("#start_ident").show();
                 $("#imgResult").html("");
+                $("#div1").show();
+                $("#div2").show();
             }
             function show_stop_ident_btn() {
                 $("#start_ident").hide();
                 $("#stop_ident").show();
                 $("#imgResult").html("");
+                $("#div1").hide();
+                $("#div2").hide();
             }
 
             $(document).ready(function() {
@@ -58,7 +62,7 @@
                             showImg();
                         }
                       //  lastMsg_ident = msg.msg;
-                        $(".report").html(msg.msg + "<br />");
+                    // $(".report").html(msg.msg + "<br />");
                         select_worker(msg.user_id,0);
                     //}
                 });
@@ -115,7 +119,7 @@
 
 </div>
 
-      <div class="mt-3 p-3 bg-white rounded box-shadow">
+      <div class="mt-3 p-3 bg-white rounded box-shadow" id="div1">
         <h6 class="border-bottom border-gray pb-2 mb-0">Оборудование у сотрудника</h6>
 
 
@@ -145,7 +149,7 @@
       </div>
 
 
-    <div class="mt-3 p-3 bg-white rounded box-shadow">
+    <div class="mt-3 p-3 bg-white rounded box-shadow" id="div2">
         <h6 class="border-bottom border-gray pb-2 mb-0">Оборудование для выдачи</h6>
 
         <div class="media text-muted pt-3">

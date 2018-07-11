@@ -233,7 +233,7 @@ def hard_input(request):
     hard_object.save()
 
     hard_transaction = HardTransaction(type=False, worker_id=User.objects.get(pk=worker_id),
-                                       hard_id=Hard_objects.objects.get(pk=hard_id));
+                                       hard_id=Hard_objects.objects.get(pk=hard_id), manager_id=request.user);
     hard_transaction.save()
 
     hard_on_worker = HardOnWorker.objects.filter(hard_id=Hard_objects.objects.get(pk=hard_id)).delete()
