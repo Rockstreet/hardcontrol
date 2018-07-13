@@ -18,7 +18,12 @@ from django.contrib.auth.models import User
 class Hard_objectsAdmin(admin.ModelAdmin):
     model = Hard_objects
 
-
+    class Media:
+        js = (
+            'https://code.jquery.com/jquery-3.3.1.min.js',
+            '//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js',
+            '/static/admin/js/hardwareegistration.js',
+        )
 
 
 
