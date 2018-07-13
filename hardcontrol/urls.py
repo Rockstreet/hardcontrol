@@ -39,5 +39,7 @@ urlpatterns = [
     path('worker_detail/<pk>', views.WorkerDetail.as_view(), name='worker_detail'),
     path('login_page/', views.LoginPage.as_view(), name='login_page'),
     path('exit/', views.exit, name='exit'),
+    path('hard_list/', views.HardList.as_view(), name='hard_list'),
+    path('worker_list/', views.WorkerList.as_view(), name='worker_list')
 
 ]

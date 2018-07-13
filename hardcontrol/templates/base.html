@@ -38,12 +38,12 @@
           <li class="nav-item {% if request.path == url %} active {% endif %}">
             <a class="nav-link" href="{{ url }}">Список операций</a>
           </li>
-          <li class="nav-item {% if request.resolver_match.url_name == 'hard_detail' %} active {% endif %}>">
-            <a class="nav-link" href=""> Оборудование </a>
+          <li class="nav-item {% if request.resolver_match.url_name == 'hard_list' %} active {% endif %}{% if request.resolver_match.url_name == 'hard_detail' %} active {% endif %}>">
+            <a class="nav-link" href="{% url 'hard_list' %}"> Оборудование </a>
           </li>
 
-        <li class="nav-item {% if request.resolver_match.url_name == 'worker_detail' %} active {% endif %}>">
-            <a class="nav-link" href="">Сотрудники</a>
+        <li class="nav-item {% if request.resolver_match.url_name == 'worker_detail' %} active {% endif %} {% if request.resolver_match.url_name == 'worker_list' %} active {% endif %}>">
+            <a class="nav-link" href="{% url 'worker_list' %}">Сотрудники</a>
           </li>
 
 {#            <li class="nav-item">#}
@@ -156,6 +156,18 @@
               if(manual_select==1) $('#manual_selected').val('True');
 
               $('#workers').modal('hide');
+
+        }
+
+        function unselect_worker()
+        {
+             $('#worker_name').html('');
+
+            $('#worker_id').val();
+
+            $("#give_hard_btn").attr('disabled','disabled');
+
+            $("#input_hard_btn").attr('disabled','disabled');
 
         }
 
