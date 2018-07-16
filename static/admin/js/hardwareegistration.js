@@ -26,9 +26,9 @@ function start() {
     showStopBtn();
 }
 
-function stop() {
+function stop(element) {
+    $(element).attr('disabled', 'disabled');
     socketio.emit("stop_hardware");
-    showStartBtn();
 }
 
 function showStartBtn() {
@@ -37,7 +37,7 @@ function showStartBtn() {
 }
 function showStopBtn() {
     $(".socket_control_start, .socket_control_stop").remove();
-    $("<a class='button socket_control_stop' style='padding: 15px; display: block; width: 425px; text-align: center; background-color: #ba2121;' onclick='stop()'>Остановить сканирование</a>").insertAfter( "#id_rfid_id" );
+    $("<a class='button socket_control_stop' style='padding: 15px; display: block; width: 425px; text-align: center; background-color: #ba2121;' onclick='stop(this)'>Остановить сканирование</a>").insertAfter( "#id_rfid_id" );
 }
 
 $(document).ready(function() {
@@ -62,6 +62,11 @@ $(document).ready(function() {
                     if (parseInt(msg.cardNum) > 1) {
                         $(".report").html(msg.msg + "<br /><b>ВНИМАНИЕ!</b> Обнаружено несколько меток. Возможны ошибки при определении серийного номера.");
                     }
+                }
+            }
+            if (msg.hardware_scanner !== undefined) {
+                if (msg.hardware_scanner === "stop") {
+                    showStartBtn();
                 }
             }
 
