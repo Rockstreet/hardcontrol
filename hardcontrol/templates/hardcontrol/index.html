@@ -9,6 +9,8 @@
             var lastMsg_ident;
             var socketio = null;
             var namespace = "/work";
+            var socketio_hardware = null;
+            var namespace_hardware = "/workhardware";
             function showImg() {
                 $.get( location.protocol + '//' + document.domain + ':' + 5000 + "/img", function( data ) {
                     if (data != '')
@@ -18,12 +20,16 @@
 
             function connect() {
 
-                socketio = io.connect(
-                    location.protocol + '//' + document.domain + ':' + 5000 + namespace
-                );
+                socketio = io.connect(location.protocol + '//' + document.domain + ':' + 5000 + namespace);
+                socketio_hardware = io.connect(location.protocol + '//' + document.domain + ':' + 5000 + namespace_hardware);
+
                 socketio.off().on("re_connect", function(msg) {
                     console.log("Соединение со сканером установлено");
                     $(".report").html(msg.msg + "<br />");
+                });
+                socketio_hardware.off().on("re_connect_hardware", function(msg) {
+                    $(".report_hardware").html(msg.msg + "<br />");
+
                 });
             }
 
@@ -39,17 +45,34 @@
                 $("#stop_ident").hide();
                 $("#start_ident").show();
                 $("#imgResult").html("");
-                $("#div1").show();
-                $("#div2").show();
+                $("#hardware_container").show();
             }
             function show_stop_ident_btn() {
                 $("#start_ident").hide();
                 $("#stop_ident").show();
                 $("#imgResult").html("");
-                $("#div1").hide();
-                $("#div2").hide();
+                $("#hardware_container").hide();
                 unselect_worker();
             }
+            function start_hardware() {
+                show_stop_hardware_btn();
+                socketio_hardware.emit("start_hardware");
+            }
+            function stop_hardware() {
+                $('.stop_hardware').attr('disabled', 'disabled');
+                $('.report_hardware').html('Остановка сканирования...');
+                socketio_hardware.emit("stop_hardware");
+            }
+            function show_start_hardware_btn() {
+                $(".start_hardware, .stop_hardware").remove();
+                $("#hardware_btn_container").prepend('<button type="button" class="btn btn-info start_hardware" onclick="start_hardware()">Сканировать</button>');
+            }
+            function show_stop_hardware_btn() {
+                $("#start_ident").attr('disabled', 'disabled');
+                $(".start_hardware, .stop_hardware").remove();
+                $("#hardware_btn_container").prepend('<button type="button" class="btn btn-danger start_hardware" onclick="stop_hardware()">Остановить сканирование</button>');
+            }
+
 
             $(document).ready(function() {
 
@@ -68,6 +91,25 @@
                     //}
                 });
 
+                socketio_hardware.on("update", function(msg) {
+                    console.log(msg.msg);
+                    $('.report_hardware').html(msg.msg);
+
+                    if (msg.uhf_id !== undefined) {
+                        if (msg.uhf_id !== "") {
+                           insert_hahdware_to_list (msg.uhf_name, msg.uhf_dbid);
+                        } else {
+                        }
+                    }
+
+                    if (msg.hardware_scanner !== undefined) {
+                        if (msg.hardware_scanner === "stop") {
+                            show_start_hardware_btn();
+                            $("#start_ident").attr('disabled', false);
+                        }
+                    }
+                });
+
                 // identification
                 $("#start_ident").click(function() {
                     start_ident();
@@ -77,6 +119,13 @@
                     stop_ident();
                     show_ident_btn();
                 });
+
+                // hardware
+                //$(".start_hardware").on("click", function() {
+                //});
+                //$(".stop_hardware").on("click", function() {
+                //});
+
 
             });
 
@@ -116,63 +165,76 @@
 
             </div>
         </div>
-
-
 </div>
 
-      <div class="mt-3 p-3 bg-white rounded box-shadow" id="div1">
+<!-- блок со списком оборудования -->
+<div id="hardware_container"  style="display:none;">
+    <div class="mt-3 p-3 bg-white rounded box-shadow" id="div1" style="display:none;">
         <h6 class="border-bottom border-gray pb-2 mb-0">Оборудование у сотрудника</h6>
-
-
-
         <div>
 
             <table class="table">
                 <tr style="font-weight: bold;">
-                    <th width="40%">Наименование оборудования</th><td align="center" width="20%">Когда выдано</td><td align="center" width="20%">Принять автоматически</td><td align="center" width="20%">Принять вручную</td>
+                    <th width="40%">Наименование оборудования</th>
+                    <td align="center" width="20%">Когда выдано</td>
+                    <td align="center" width="20%">&nbsp;</td>
+                    <td align="center" width="20%">Принять</td>
                 </tr>
                 <tbody id="hardw_list_input">
-
                 </tbody>
-
             </table>
-
-
         </div>
         <small class="d-block text-right mt-3" id="in_pocess">
             <button type="button" class="btn btn-outline-danger" id="input_hard_btn" disabled="disabled">Принять оборудование</button>
         </small>
 
-        <small style="display: none;" class="text-right mt-3" id="sucess" >
-                <a type="button" href="/" class="btn btn-outline-success" id="">Оборудование по списку принято, продолжить</a>
+        <small style="display: none;" class="text-right mt-3" id="sucess">
+            <a type="button" href="/" class="btn btn-outline-success" id="">Оборудование по списку принято, продолжить</a>
         </small>
 
-      </div>
+    </div>
 
 
     <div class="mt-3 p-3 bg-white rounded box-shadow" id="div2">
-        <h6 class="border-bottom border-gray pb-2 mb-0">Оборудование для выдачи</h6>
+        <h6 class="border-gray pb-2 mb-0">Оборудование для выдачи</h6>
 
-        <div class="media text-muted pt-3">
+        <div class="media text-muted pb-2 border-bottom ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="btn-group" id="hardware_btn_container">
+                          <button type="button" class="btn btn-info start_hardware" onclick="start_hardware()">Сканировать</button>
+                          <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item start_hardware" href="#">Сканировать</a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#hard">Выбрать вручную</a>
+                          </div>
+                        </div>
+                        {#                <button type="button" class="btn btn-outline-info">Сканировать</button>#}
+                        {#                <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#hard">Выбрать</button>#}
+                    </div>
+                    <div class="col-6 report_hardware">
+                    </div>
+                </div>
+            </div>
 
-          <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-          <button type="button" class="btn btn-outline-info">Сканировать</button>
-              <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#hard">Выбрать</button>
-          </p>
+
         </div>
 
         <div id="hardw_list_output">
 
         </div>
         <small class="d-block text-right mt-3" id="in_pocess">
-                <button type="button" class="btn btn-outline-success" id="give_hard_btn" disabled="disabled">Выдать оборудование</button>
+            <button type="button" class="btn btn-outline-success" id="give_hard_btn" style="display: none;" disabled="disabled">Выдать оборудование</button>
         </small>
 
-        <small style="display: none;" class="text-right mt-3" id="sucess" >
-                <a type="button" href="/" class="btn btn-outline-success" id="">Оборудование по списку выдано, продолжить</a>
+        <small style="display: none;" class="text-right mt-3" id="sucess">
+            <a type="button" href="/" class="btn btn-outline-success" id="">Оборудование по списку выдано, продолжить</a>
         </small>
 
-      </div>
+    </div>
  </div>
 </form>
 
