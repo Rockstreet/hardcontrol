@@ -194,6 +194,12 @@ def hard_output(request):
     if request.method == 'GET':
         hard_id = request.GET['hard_id']
         worker_id =  request.GET['worker_id']
+        select_auto = request.GET['select_auto']
+
+    if select_auto == '1':
+        select_auto = True
+    else:
+        select_auto = False
 
 
 
@@ -201,10 +207,10 @@ def hard_output(request):
     hard_object.status=False
     hard_object.save()
 
-    hard_transaction=HardTransaction(type=True, worker_id=User.objects.get(pk=worker_id), hard_id=Hard_objects.objects.get(pk=hard_id),manager_id=request.user)
+    hard_transaction=HardTransaction(type=True, worker_id=User.objects.get(pk=worker_id), hard_id=Hard_objects.objects.get(pk=hard_id),manager_id=request.user, select_auto=select_auto)
     hard_transaction.save()
 
-    hard_on_worker=HardOnWorker(worker_id=User.objects.get(pk=worker_id), hard_id=Hard_objects.objects.get(pk=hard_id),manager_id=request.user)
+    hard_on_worker=HardOnWorker(worker_id=User.objects.get(pk=worker_id), hard_id=Hard_objects.objects.get(pk=hard_id),manager_id=request.user, select_auto=select_auto)
     hard_on_worker.save()
 
 

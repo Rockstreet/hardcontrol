@@ -213,7 +213,7 @@
           }
         }
 
-        function insert_hahdware_to_list (hard_name, hard_id) {
+        function insert_hahdware_to_list (hard_name, hard_id, select_auto) {
           var select_auto_hardware = $('.select_auto:checkbox[value="' + hard_id + '"]').length;
 
           if (($('.hard_id:input[value="' + hard_id + '"]').length === 0) && (!select_auto_hardware)) {
@@ -225,6 +225,7 @@
                   '            <span class="d-block"></span>\n' +
                   '<input type="hidden" class="hard_id" name="hads_id" value="' + hard_id + '">' +
                   '<input type="hidden" class="not_stock" name="not_stock[]" value="' + hard_name + '">' +
+                  '<input type="hidden" class="selectautoinsert' + hard_id + '" name="" value="'+select_auto+'">' +
                   '          </div>');
 
               $('#hardw_select_id').find('option:selected').removeAttr("selected");
@@ -250,7 +251,7 @@
               var hard_name = $('#hardw_select_id').find('option:selected').text();
               var hard_id = $('#hardw_select_id').find('option:selected').val();
 
-              insert_hahdware_to_list (hard_name, hard_id);
+              insert_hahdware_to_list (hard_name, hard_id, 0);
                 //          $('.rem_item').click(function () {
                 //              alert($(this).attr('id'));
                 //          });
@@ -280,7 +281,11 @@
 
                   $.each($('.hard_id'), function () {
 
-                      $.get('hard_output/', {hard_id: $(this).val(), worker_id: $('#worker_id').val()}, function (data) {
+
+
+                      select_auto=$(".selectautoinsert"+$(this).val()).val();
+
+                      $.get('hard_output/', {hard_id: $(this).val(), worker_id: $('#worker_id').val(),select_auto: select_auto}, function (data) {
 
                           $('#rem' + data).after('<font color=green>Выдано</font>');
 
@@ -310,12 +315,6 @@
                   this_id=$(this).val();
 
                   select_auto = $(".select_auto[name=sa"+this_id+"]:checkbox:checked").length;
-
-
-
-
-
-
 
                   hard_input($(this).val(), select_auto);
 
