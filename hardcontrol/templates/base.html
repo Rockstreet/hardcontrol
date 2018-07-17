@@ -104,7 +104,7 @@
     <script language="JavaScript">
       function hard_input(id,manual)
       {
-          $.get('hard_input/', {hard_id: id, worker_id:$('#worker_id').val()}, function(data){
+          $.get('hard_input/', {hard_id: id, worker_id:$('#worker_id').val(), select_auto:manual}, function(data){
                 $('#inputrem'+data).remove();
             });
       }
@@ -187,7 +187,7 @@
                             $('#hardw_list_input').append('<tr id="inputrem' + data2.pk + '">' +
                                 '<td>' + data2.fields.title + '</td>' +
                                 '<td align="center">' + a + '</td>' +
-                                '<td align="center"><input type="checkbox" value="' + data2.pk + '" disabled="disabled" class="select_auto"></td>' +
+                                '<td align="center"><input type="checkbox" name="sa' + data2.pk + '" value="' + data2.pk + '" disabled="disabled"  class="select_auto"></td>' +
                                 '<td align="center"><input type="checkbox" value="' + data2.pk + '" class="select_manual"></td>' +
                                 '</tr>');
 
@@ -303,8 +303,23 @@
           });
 
           $('#input_hard_btn').click(function () {
+
+
               $(".select_manual:checkbox:checked").each(function () {
-                  hard_input($(this).val(), 1);
+
+                  this_id=$(this).val();
+
+                  select_auto = $(".select_auto[name=sa"+this_id+"]:checkbox:checked").length;
+
+
+
+
+
+
+
+                  hard_input($(this).val(), select_auto);
+
+
               });
 
               alert('Оборудование принято');

@@ -124,9 +124,34 @@ class HardList(generic.ListView):
     model = Hard_objects
     template_name = 'hardcontrol/hard_list.html'
 
+    def get_queryset(self):
+        try:
+            title = self.request.GET['title']
+        except:
+            title = ''
+        if (title != ''):
+            object_list = self.model.objects.filter(title__icontains=title)
+
+        else:
+            object_list = self.model.objects.all()
+        return object_list
+
+
 class WorkerList(generic.ListView):
     model = User
     template_name = 'hardcontrol/worker_list.html'
+
+    def get_queryset(self):
+        try:
+            name = self.request.GET['last_name']
+        except:
+            name = ''
+        if (name != ''):
+            object_list = self.model.objects.filter(last_name__icontains=name)
+
+        else:
+            object_list = self.model.objects.all()
+        return object_list
 
 
 
@@ -169,6 +194,8 @@ def hard_output(request):
     if request.method == 'GET':
         hard_id = request.GET['hard_id']
         worker_id =  request.GET['worker_id']
+
+
 
     hard_object=Hard_objects.objects.get(pk=hard_id)
     hard_object.status=False
@@ -235,13 +262,20 @@ def hard_input(request):
     if request.method == 'GET':
         hard_id = request.GET['hard_id']
         worker_id = request.GET['worker_id']
+        select_auto = request.GET['select_auto']
+
+    if select_auto=='1':
+        select_auto=True
+    else:
+        select_auto=False
+
 
     hard_object = Hard_objects.objects.get(pk=hard_id)
     hard_object.status = True
     hard_object.save()
 
     hard_transaction = HardTransaction(type=False, worker_id=User.objects.get(pk=worker_id),
-                                       hard_id=Hard_objects.objects.get(pk=hard_id), manager_id=request.user);
+                                       hard_id=Hard_objects.objects.get(pk=hard_id), manager_id=request.user, select_auto=select_auto);
     hard_transaction.save()
 
     hard_on_worker = HardOnWorker.objects.filter(hard_id=Hard_objects.objects.get(pk=hard_id)).delete()
