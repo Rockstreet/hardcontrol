@@ -102,23 +102,12 @@
 
 
     <script language="JavaScript">
-
-
-
       function hard_input(id,manual)
       {
           $.get('hard_input/', {hard_id: id, worker_id:$('#worker_id').val()}, function(data){
-
                 $('#inputrem'+data).remove();
-
-                });
-
-
-
+            });
       }
-
-
-
 
       function rem_item(id)
         {
@@ -131,7 +120,8 @@
         {
             var this_worker;
             $('#hardw_list_output').html('');
-            $('#give_hard_btn').hide();
+            //$('#give_hard_btn').hide();
+            $('#div2').hide();
 
             $.getJSON('get_worker/', {worker_id:worker_id}, function(data){
 
@@ -159,14 +149,10 @@
 
         function unselect_worker()
         {
-             $('#worker_name').html('');
-
+            $('#worker_name').html('');
             $('#worker_id').val();
-
             $("#give_hard_btn").attr('disabled','disabled');
-
             $("#input_hard_btn").attr('disabled','disabled');
-
         }
 
         function get_worker_hard(worker_id)
@@ -198,7 +184,12 @@
                             {#'          </div>');#}
 
 
-                            $('#hardw_list_input').append('<tr id="inputrem' + data2.pk + '"><td>' + data2.fields.title + '</td><td align="center">' + a + '</td><td align="center"><input type="checkbox" disabled="disabled" class=""></td><td align="center"><input type="checkbox" value="' + data2.pk + '" class="select_manual"></td></tr>');
+                            $('#hardw_list_input').append('<tr id="inputrem' + data2.pk + '">' +
+                                '<td>' + data2.fields.title + '</td>' +
+                                '<td align="center">' + a + '</td>' +
+                                '<td align="center"><input type="checkbox" value="' + data2.pk + '" disabled="disabled" class="select_auto"></td>' +
+                                '<td align="center"><input type="checkbox" value="' + data2.pk + '" class="select_manual"></td>' +
+                                '</tr>');
 
 
                         });
@@ -216,14 +207,16 @@
 
         function check_hardware_list_count() {
           if ($('.hardware_item').length) {
-              $('#give_hard_btn').show();
+              $('#div2').show();
           } else {
-              $('#give_hard_btn').hide();
+              $('#div2').hide();
           }
         }
 
         function insert_hahdware_to_list (hard_name, hard_id) {
-          if ($('.hard_id:input[value="' + hard_id + '"]').length === 0) {
+          var select_auto_hardware = $('.select_auto:checkbox[value="' + hard_id + '"]').length;
+
+          if (($('.hard_id:input[value="' + hard_id + '"]').length === 0) && (!select_auto_hardware)) {
               $('#hardw_list_output').append(' <div id="item' + hard_id + '" class="hardware_item media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray">\n' +
                   '            <div class="d-flex justify-content-between align-items-center w-100">\n' +
                   '              <strong class="text-gray-dark">' + hard_name + '</strong>\n' +
@@ -241,6 +234,11 @@
               $('#hardw_select_id option[value=""]').removeAttr('selected').attr('selected', 'selected');
               $('#select_hardw').attr('disabled', 'disabled');
           }
+          else if (select_auto_hardware > 0) {
+            $('.select_auto:checkbox[value="' + hard_id + '"]').attr('checked', 'checked');
+            $('.select_manual:checkbox[value="' + hard_id + '"]').attr('checked', 'checked');
+          }
+
           check_hardware_list_count();
         }
 
@@ -271,15 +269,8 @@
 
 
           $('#select_worker_btn').click(function () {
-
-
               var worker_id = $('#worker_select_id').find('option:selected').val();
-
               select_worker(worker_id,1);
-
-
-
-
           });
 
           $('#give_hard_btn').click(function () {
@@ -307,24 +298,18 @@
                   window.location.href = '/';
 
               }
-
               else alert('Сотрудник не выбран');
 
           });
 
-         $('#input_hard_btn').click(function () {
+          $('#input_hard_btn').click(function () {
+              $(".select_manual:checkbox:checked").each(function () {
+                  hard_input($(this).val(), 1);
+              });
 
-
-             $(".select_manual:checkbox:checked").each(function () {
-
-                 hard_input($(this).val(),1);
-
-             });
-
-            alert('Оборудование принято');
-          window.location.href='/';
-
-         });
+              alert('Оборудование принято');
+              window.location.href = '/';
+          });
 
       });
 
