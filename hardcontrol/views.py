@@ -24,6 +24,7 @@ from django.shortcuts import render
 
 from django.contrib.auth import authenticate, login, logout
 
+from urllib.parse import urlencode
 
 
 class Index(generic.TemplateView):
@@ -75,16 +76,109 @@ class Register_user(generic.CreateView):
 		return True
 
 
+
+
+
+
 class ListOperations(generic.ListView):
 
 
     model = HardTransaction
     ordering = ['-datetime']
     template_name = 'hardcontrol/list_operations.html'
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super(ListOperations, self).get_context_data(**kwargs)
+        context['all_managers'] = User.objects.filter(groups__name='Менеджеры выдачи')
+
+        query_params = self.request.GET.copy()
+        query_params.pop('page', None)
+        context['query_params'] = urlencode(query_params)
+
         return context
+
+    def get_queryset(self):
+
+            object_list = self.model.objects.all().order_by('-datetime')
+
+            try:
+                title = self.request.GET['title']
+            except:
+                title = ''
+
+            try:
+                last_name = self.request.GET['last_name']
+            except:
+                last_name = ''
+
+            try:
+                type = self.request.GET['type']
+            except:
+                type = ''
+
+            try:
+                date_ot = self.request.GET['date_ot']
+            except:
+                date_ot = ''
+
+            try:
+                date_po = self.request.GET['date_po']
+            except:
+                date_po = ''
+
+            try:
+                select_auto = self.request.GET['select_auto']
+            except:
+                select_auto = ''
+
+            try:
+                manager = self.request.GET['manager']
+            except:
+                manager = ''
+
+
+            if (manager != 'Все' and manager !='') :
+                object_list = object_list.filter(manager_id=manager).order_by('-datetime')
+
+
+            if (select_auto == '1'):
+                object_list = object_list.filter(select_auto=True).order_by('-datetime')
+
+            if (select_auto == '0'):
+                object_list = object_list.filter(select_auto=False).order_by('-datetime')
+
+
+            if (date_po != ''):
+                object_list = object_list.filter(datetime__lte=date_po).order_by('-datetime')
+
+
+
+            if (date_ot != ''):
+                object_list = object_list.filter(datetime__gte=date_ot).order_by('-datetime')
+
+            if (type == '1'):
+                object_list = object_list.filter(type=True).order_by('-datetime')
+
+            if (type == '0'):
+                object_list = object_list.filter(type=False).order_by('-datetime')
+
+
+            if (last_name != ''):
+                object_list = object_list.filter(worker_id__last_name__icontains=last_name).order_by('-datetime')
+
+
+            if (title != ''):
+                object_list = object_list.filter(hard_id__title__icontains=title).order_by('-datetime')
+
+
+            return object_list
+
+
+
+
+
+
 
 class HardDetail(generic.DetailView):
 

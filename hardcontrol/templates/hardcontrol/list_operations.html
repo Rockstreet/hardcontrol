@@ -3,12 +3,96 @@
 {% block content %}
 
     <div class="mt-3 p-3 bg-white rounded box-shadow">
-        <h6 class="border-bottom border-gray pb-2 mb-0">Опции</h6>
+        <h6 class="  pb-2 mb-0">Опции</h6>
         <div class="media  pt-3">
 
-            <div class="media-body pb-3 mb-0 border-bottom border-gray">
+            <div class="media-body pb-3 mb-0 border-bottom">
+
+             <form action="{% url "list_operations" %}" method="get">
 
 
+    <table class="table">
+                <tr>
+                    <th>
+                        Тип
+                    </th>
+                    <th>
+                        Дата/Время
+                    </th>
+                    <th>
+                        Наименование оборудования
+                    </th>
+                    <th>
+                        Сотрудник
+                    </th>
+                    <th>
+                        Способ выбора
+                    </th>
+                    <th>
+                        Менджер
+                    </th>
+                </tr>
+
+        <tr>
+                    <td>
+                       <select id="inputState" name="type" class="form-control">
+        <option value="Все"  {% if request.GET.type == 'Все' %}selected{% endif %}>Все</option>
+        <option value="0" {% if request.GET.type == '0' %}selected{% endif %}>Прием</option>
+        <option value="1" {% if request.GET.type == '1' %}selected{% endif %}>Выдача</option>
+      </select>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                        <label >Дата от:</label>
+                        <input type="date" name="date_ot" {% if request.GET.date_ot != '' %}value="{{ request.GET.date_ot  }}" {% endif %} max="3000-12-31" min="1000-01-01" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label >Дата по:</label>
+                            <input type="date" name="date_po" {% if request.GET.date_po != '' %}value="{{ request.GET.date_po  }}" {% endif %}  min="1000-01-01" max="3000-12-31" class="form-control">
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" name="title" value="{% if request.GET.title %}{{ request.GET.title }}{% endif %}" class="form-control" placeholder="Наименование оборудование" aria-label="Наименование оборудование" aria-describedby="basic-addon2">
+                    </td>
+                    <td>
+                        <input type="text" name="last_name" value="{% if request.GET.last_name %}{{ request.GET.last_name }}{% endif %}" class="form-control" placeholder="Фамилия сотрудника" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    </td>
+                    <td>
+
+
+      <select id="inputState" name="select_auto" class="form-control">
+        <option value="Все" {% if request.GET.select_auto == 'Все' %}selected{% endif %}>Все</option>
+        <option value="0" {% if request.GET.select_auto == '0' %}selected{% endif %}>Вручную</option>
+        <option value="1" {% if request.GET.select_auto == '1' %}selected{% endif %}>По RFID</option>
+      </select>
+
+                    </td>
+                    <td>
+    <select id="inputState" name="manager" class="form-control">
+        <option {% if request.GET.manager == 'Все' %}selected{% endif %}>Все</option>
+
+        {% for item in all_managers %}
+
+            <option {% if request.GET.manager == item.pk|floatformat:"0" %}selected{% endif %} value="{{ item.pk }}">{{ item.first_name }} {{ item.last_name }} </option>
+
+        {% endfor %}
+
+      </select>
+
+                    </td>
+                </tr>
+
+
+    </table>
+             <div class="text-center">
+             <input type="botton" onclick="javascript:location.href='{% url "list_operations" %}'" class="btn btn-danger col-md-2" value="Сбросить фильтры">
+
+             <input type="submit" class="btn btn-primary col-md-2" value="Отфильтровать">
+
+              </div>
+
+             </form>
 
 
 
@@ -90,7 +174,24 @@
 </table>
 
 
+
+
             </div>
+    {% if is_paginated %}
+        <div class="text-center col-md-12">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'list_operations' %}?page={{ page_obj.previous_page_number }}&{{ query_params }}"> << </a>
+                {% endif %}
+                <span class="page-current">
+                    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="{% url 'list_operations' %}?page={{ page_obj.next_page_number }}&{{ query_params }}"> >> </a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
         </div>
     </div>
 
