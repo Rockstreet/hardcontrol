@@ -274,6 +274,7 @@
 
           $('#select_worker_btn').click(function () {
               var worker_id = $('#worker_select_id').find('option:selected').val();
+              stop_ident();
               $("#imgResult").html("");
               select_worker(worker_id,1);
           });

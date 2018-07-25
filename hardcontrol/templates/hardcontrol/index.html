@@ -42,15 +42,17 @@
             }
 
             function show_ident_btn() {
-                $("#stop_ident").hide();
-                $("#start_ident").show();
+                //$("#stop_ident").hide();
+                //$("#start_ident").show();
                 $("#imgResult").html("");
+                $("#change_worker").show();
+                $("#manual_select_worker").hide();
                 //$("#hardware_container").show();
             }
             function show_stop_ident_btn() {
-                $("#start_ident").hide();
-                $("#stop_ident").show();
-                $("#stop_ident").attr('disabled', false);
+                //$("#start_ident").hide();
+                //$("#stop_ident").show();
+                //$("#stop_ident").attr('disabled', false);
                 $("#imgResult").html("");
                 $("#hardware_container").hide();
                 unselect_worker();
@@ -69,7 +71,7 @@
                 $("#hardware_btn_container").prepend('<button type="button" class="btn btn-info start_hardware" onclick="start_hardware()">Сканировать оборудование</button>');
             }
             function show_stop_hardware_btn() {
-                $("#start_ident").attr('disabled', 'disabled');
+                //$("#start_ident").attr('disabled', 'disabled');
                 $(".start_hardware, .stop_hardware").remove();
                 $("#hardware_btn_container").prepend('<button type="button" class="btn btn-danger start_hardware" onclick="stop_hardware()">Остановить сканирование</button>');
             }
@@ -111,7 +113,7 @@
                     if (msg.hardware_scanner !== undefined) {
                         if (msg.hardware_scanner === "stop") {
                             show_start_hardware_btn();
-                            $("#start_ident").attr('disabled', false);
+                            //$("#start_ident").attr('disabled', false);
                         }
                     }
                 });
@@ -122,7 +124,7 @@
                     show_stop_ident_btn();
                 });
                 $("#stop_ident").click(function() {
-                    $('#stop_ident').attr('disabled', 'disabled');
+                    //$('#stop_ident').attr('disabled', 'disabled');
                     stop_ident();
                     //show_ident_btn();
                 });
@@ -133,7 +135,7 @@
                 //$(".stop_hardware").on("click", function() {
                 //});
 
-
+                $("#start_ident").click();
             });
 
         </script>
@@ -150,9 +152,10 @@
                 <div class="report">
                     <b></b>
                 </div>
-              <button type="button" name="start_ident" id="start_ident" class="btn btn-outline-primary">Сканировать</button>
+              <button type="button" name="start_ident" id="start_ident" class="btn btn-outline-primary" style="display: none;">Сканировать</button>
               <button type="button" name="stop_ident" id="stop_ident" class="btn btn-outline-danger" style="display: none;">Остановить сканирование</button>
-              <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#workers">Выбрать вручную</button>
+              <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#workers" id="manual_select_worker">Выбрать сотрудника вручную</button>
+              <button type="button" class="btn btn-outline-primary" onclick="top.location.href='/'" id="change_worker" style="display: none;">Изменить сотрудника</button>
 
                 <div id="worker_data">
 
