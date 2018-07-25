@@ -45,11 +45,12 @@
                 $("#stop_ident").hide();
                 $("#start_ident").show();
                 $("#imgResult").html("");
-                $("#hardware_container").show();
+                //$("#hardware_container").show();
             }
             function show_stop_ident_btn() {
                 $("#start_ident").hide();
                 $("#stop_ident").show();
+                $("#stop_ident").attr('disabled', false);
                 $("#imgResult").html("");
                 $("#hardware_container").hide();
                 unselect_worker();
@@ -81,23 +82,28 @@
                     //if (lastMsg_ident !== msg.msg) {
                         //console.log(msg.user_id);
                         if (msg.user_id !== undefined) {
-                            if (msg.user_id !== -1)
+                            if (msg.user_id !== -1) {
                                 show_ident_btn();
+                                select_worker(msg.user_id, 0);
+                            }
                             showImg();
                         }
+                        if (msg.ident_scanner !== undefined) {
+                            if (msg.ident_scanner === "stop") {
+                                show_ident_btn();
+                            }
+                        }
                       //  lastMsg_ident = msg.msg;
-                    // $(".report").html(msg.msg + "<br />");
-                        select_worker(msg.user_id,0);
+                        $(".report").html(msg.msg + "<br />");
                     //}
                 });
 
                 socketio_hardware.on("update", function(msg) {
-                    console.log(msg.msg);
                     $('.report_hardware').html(msg.msg);
 
                     if (msg.uhf_id !== undefined) {
                         if (msg.uhf_id !== "") {
-                           insert_hahdware_to_list (msg.uhf_name, msg.uhf_dbid, 1);
+                            insert_hahdware_to_list(msg.uhf_name, msg.uhf_dbid, msg.uhf_status, 1);
                         } else {
                         }
                     }
@@ -116,8 +122,9 @@
                     show_stop_ident_btn();
                 });
                 $("#stop_ident").click(function() {
+                    $('#stop_ident').attr('disabled', 'disabled');
                     stop_ident();
-                    show_ident_btn();
+                    //show_ident_btn();
                 });
 
                 // hardware

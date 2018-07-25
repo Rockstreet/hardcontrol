@@ -68,6 +68,15 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {  # Adding this section should work around the issue.
+                'staticfiles': 'django.templatetags.static',
+                'static': 'django.templatetags.static',
+                'i18n': 'django.templatetags.i18n',
+                'log': 'django.contrib.admin.templatetags.log',
+                'admin_urls': 'django.contrib.admin.templatetags.admin_urls',
+                'admin_modify': 'django.contrib.admin.templatetags.admin_modify',
+                'admin_list': 'django.contrib.admin.templatetags.admin_list',
+            },
         },
     },
 ]
@@ -133,9 +142,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_ROOT = ''
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
 STATICFILES_DIRS = ( os.path.join('static'), )
 

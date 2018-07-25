@@ -124,7 +124,7 @@
             $('#div2').hide();
 
             $.getJSON('get_worker/', {worker_id:worker_id}, function(data){
-
+                $("#hardware_container").show();
 
                 //console.log(data);
 
@@ -213,27 +213,30 @@
           }
         }
 
-        function insert_hahdware_to_list (hard_name, hard_id, select_auto) {
+        function insert_hahdware_to_list (hard_name, hard_id, hard_status, select_auto) {
           var select_auto_hardware = $('.select_auto:checkbox[value="' + hard_id + '"]').length;
 
           if (($('.hard_id:input[value="' + hard_id + '"]').length === 0) && (!select_auto_hardware)) {
-              $('#hardw_list_output').append(' <div id="item' + hard_id + '" class="hardware_item media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray">\n' +
-                  '            <div class="d-flex justify-content-between align-items-center w-100">\n' +
-                  '              <strong class="text-gray-dark">' + hard_name + '</strong>\n' +
-                  '              <a onclick="rem_item(' + hard_id + ')" style="cursor:pointer;" id="rem' + hard_id + '" class="rem_item"">Удалить</a>\n' +
-                  '            </div>\n' +
-                  '            <span class="d-block"></span>\n' +
-                  '<input type="hidden" class="hard_id" name="hads_id" value="' + hard_id + '">' +
-                  '<input type="hidden" class="not_stock" name="not_stock[]" value="' + hard_name + '">' +
-                  '<input type="hidden" class="selectautoinsert' + hard_id + '" name="" value="'+select_auto+'">' +
-                  '          </div>');
-
-              $('#hardw_select_id').find('option:selected').removeAttr("selected");
-              $('#hardw_select_id').find('option:selected').css('display', 'none');
+              if (hard_status) {
+                  $('#hardw_list_output').append(' <div id="item' + hard_id + '" class="hardware_item media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray">\n' +
+                      '            <div class="d-flex justify-content-between align-items-center w-100">\n' +
+                      '              <strong class="text-gray-dark">' + hard_name + '</strong>\n' +
+                      '              <a onclick="rem_item(' + hard_id + ')" style="cursor:pointer;" id="rem' + hard_id + '" class="rem_item"">Удалить</a>\n' +
+                      '            </div>\n' +
+                      '            <span class="d-block"></span>\n' +
+                      '<input type="hidden" class="hard_id" name="hads_id" value="' + hard_id + '">' +
+                      '<input type="hidden" class="not_stock" name="not_stock[]" value="' + hard_name + '">' +
+                      '<input type="hidden" class="selectautoinsert' + hard_id + '" name="" value="' + select_auto + '">' +
+                      '          </div>');
 
 
-              $('#hardw_select_id option[value=""]').removeAttr('selected').attr('selected', 'selected');
-              $('#select_hardw').attr('disabled', 'disabled');
+                  $('#hardw_select_id').find('option:selected').removeAttr("selected");
+                  $('#hardw_select_id').find('option:selected').css('display', 'none');
+
+
+                  $('#hardw_select_id option[value=""]').removeAttr('selected').attr('selected', 'selected');
+                  $('#select_hardw').attr('disabled', 'disabled');
+              }
           }
           else if (select_auto_hardware > 0) {
             $('.select_auto:checkbox[value="' + hard_id + '"]').attr('checked', 'checked');
@@ -251,7 +254,7 @@
               var hard_name = $('#hardw_select_id').find('option:selected').text();
               var hard_id = $('#hardw_select_id').find('option:selected').val();
 
-              insert_hahdware_to_list (hard_name, hard_id, 0);
+              insert_hahdware_to_list (hard_name, hard_id, true, 0);
                 //          $('.rem_item').click(function () {
                 //              alert($(this).attr('id'));
                 //          });
@@ -271,6 +274,7 @@
 
           $('#select_worker_btn').click(function () {
               var worker_id = $('#worker_select_id').find('option:selected').val();
+              $("#imgResult").html("");
               select_worker(worker_id,1);
           });
 

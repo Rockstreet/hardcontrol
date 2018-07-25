@@ -20,6 +20,11 @@ from django.conf.urls import url, include
 
 from . import views
 
+# Импортируем настройки проекта
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
+
 urlpatterns = [
 
     path('', views.Index.as_view(), name='index'),
@@ -43,3 +48,5 @@ urlpatterns = [
     path('worker_list/', views.WorkerList.as_view(), name='worker_list')
 
 ]
+
+urlpatterns += staticfiles_urlpatterns()
