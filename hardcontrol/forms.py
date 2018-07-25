@@ -10,3 +10,9 @@ class CreateAccountForm(ModelForm):
         fields = ("username","password","password2","first_name","last_name",
                   "gender","medication","medical_history","DOB","email","telephone",
                   "address","city","state","postcode")
+
+
+
+
+
+
