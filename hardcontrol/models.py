@@ -19,6 +19,8 @@ class Hard_objects(models.Model):
     number_reg = models.CharField(_("Номер свидетельства о регистрации"), max_length=1000, default='', blank=True)
     number_name = models.CharField(_("Марка транспортного средства"), max_length=1000, default='', blank=True)
     status = models.BooleanField(_("Оборудование на складе"), default=True )
+    repair = models.BooleanField(_("Оборудование в ремонте"), default=False )
+
 
 
 

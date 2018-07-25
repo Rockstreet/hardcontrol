@@ -34,7 +34,7 @@ class Index(generic.TemplateView):
 	def get_context_data(self, **kwargs):
 		context = super(Index, self).get_context_data(**kwargs)
 
-		context['hardw_list']=Hard_objects.objects.filter(status=True).all
+		context['hardw_list']=Hard_objects.objects.filter(status=True).filter(repair=False).all
 
 
 		context['worker_list']=User.objects.filter(groups__name='Сотрудники')
