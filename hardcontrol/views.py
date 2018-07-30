@@ -413,9 +413,9 @@ def hard_complect(request):
     if request.method == 'GET':
         hard_id =  request.GET['hard_id']
 
-    hard_complect='Серийный номер: '+Hard_objects.objects.filter(pk=hard_id).first().number1
-    hard_complect+= '<br>Заводской номер: '+Hard_objects.objects.filter(pk=hard_id).first().number2
-    hard_complect+= '<br>Комплектность: <br>'+Hard_objects.objects.filter(pk=hard_id).first().complect.replace('\n', '<br />')
+    hard_complect='<b>Серийный номер:</b> '+Hard_objects.objects.filter(pk=hard_id).first().number1
+    hard_complect+= '<br><b>Заводской номер:</b> '+Hard_objects.objects.filter(pk=hard_id).first().number2
+    hard_complect+= '<br><b>Комплектность:</b> <br>'+Hard_objects.objects.filter(pk=hard_id).first().complect.replace('\n', '<br />')
 
 
     return HttpResponse(hard_complect)
