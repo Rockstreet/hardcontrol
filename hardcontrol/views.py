@@ -212,6 +212,8 @@ class WorkerDetail(generic.DetailView):
 
         context['user'] = manager_id=self.request.user
 
+        context['profile'] = UserProfile.objects.filter(user=context['worker']).first()
+
         context['hardtransaction_list'] = HardTransaction.objects.filter(worker_id=self.object.pk).order_by('-datetime')
 
         return context
