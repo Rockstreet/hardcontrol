@@ -333,8 +333,10 @@ def get_worker_photo(request):
 
     if request.method == 'GET':
         worker_id =  request.GET['worker_id']
-
-    photo_url = UserProfile.objects.filter(user=worker_id).first().foto.url
+    try:
+        photo_url = UserProfile.objects.filter(user=worker_id).first().foto.url
+    except:
+        photo_url=''
 
 
     return HttpResponse(photo_url)
