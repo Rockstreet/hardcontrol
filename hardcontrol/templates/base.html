@@ -116,6 +116,22 @@
             check_hardware_list_count();
         }
 
+
+      function get_hard_complect(hard_id) {
+
+             $.get('hard_complect/', {hard_id: id}, function(data){
+
+                alert(data);
+
+                $('#complect_modal').modal('show');
+
+                $('#complect_data').html(data);
+
+
+            });
+
+      }
+
         function select_worker(worker_id, manual_select)
         {
             var this_worker;
@@ -236,6 +252,11 @@
           }
         }
 
+
+
+
+
+
         function insert_hahdware_to_list (hard_name, hard_id, hard_status, hard_repair, select_auto) {
           var select_auto_hardware = $('.select_auto:checkbox[value="' + hard_id + '"]').length;
 
@@ -243,7 +264,7 @@
               if ((hard_status) && (!hard_repair)) {
                   $('#hardw_list_output').append(' <div id="item' + hard_id + '" class="hardware_item media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray">\n' +
                       '            <div class="d-flex justify-content-between align-items-center w-100">\n' +
-                      '              <strong class="text-gray-dark">' + hard_name + '</strong>\n' +
+                      '              <strong class="text-gray-dark"><a onclick="get_hard_complect('+hard_id+')">' + hard_name + '</a></strong>\n' +
                       '              <a onclick="rem_item(' + hard_id + ')" style="cursor:pointer;" id="rem' + hard_id + '" class="rem_item"">Удалить</a>\n' +
                       '            </div>\n' +
                       '            <span class="d-block"></span>\n' +
