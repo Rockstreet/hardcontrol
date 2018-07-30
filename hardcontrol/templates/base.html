@@ -120,6 +120,7 @@
         {
             var this_worker;
             $('#hardw_list_output').html('');
+            //$("#start_ident").hide();
             //$('#give_hard_btn').hide();
             //$('#div2').hide();
 
@@ -213,11 +214,11 @@
           }
         }
 
-        function insert_hahdware_to_list (hard_name, hard_id, hard_status, select_auto) {
+        function insert_hahdware_to_list (hard_name, hard_id, hard_status, hard_repair, select_auto) {
           var select_auto_hardware = $('.select_auto:checkbox[value="' + hard_id + '"]').length;
 
           if (($('.hard_id:input[value="' + hard_id + '"]').length === 0) && (!select_auto_hardware)) {
-              if (hard_status) {
+              if ((hard_status) && (!hard_repair)) {
                   $('#hardw_list_output').append(' <div id="item' + hard_id + '" class="hardware_item media-body pb-3 pt-3 mb-0 small lh-125 border-bottom border-gray">\n' +
                       '            <div class="d-flex justify-content-between align-items-center w-100">\n' +
                       '              <strong class="text-gray-dark">' + hard_name + '</strong>\n' +
@@ -282,7 +283,7 @@
           $('#give_hard_btn').click(function () {
 
               if ($('#worker_id').val() != '') {
-
+                  stop_hardware();
 
                   $.each($('.hard_id'), function () {
 
@@ -304,6 +305,7 @@
 
 
                   });
+
                   alert('Оборудование выдано');
                   window.location.href = '/';
 

@@ -14,7 +14,7 @@
             function showImg() {
                 $.get( location.protocol + '//' + document.domain + ':' + 5000 + "/img", function( data ) {
                     if (data != '')
-                        $( "#imgResult" ).html( "<img src='data:image/png;base64, " + data + "' width='150'>");
+                        $( "#imgResult" ).html( "<img src='data:image/png;base64, " + data + "' height='100'>");
                 });
             }
 
@@ -42,7 +42,7 @@
             }
 
             function show_ident_btn() {
-                //$("#stop_ident").hide();
+                $("#stop_ident").hide();
                 //$("#start_ident").show();
                 $("#imgResult").html("");
                 $("#change_worker").show();
@@ -50,9 +50,9 @@
                 //$("#hardware_container").show();
             }
             function show_stop_ident_btn() {
-                //$("#start_ident").hide();
-                //$("#stop_ident").show();
-                //$("#stop_ident").attr('disabled', false);
+                $("#start_ident").hide();
+                $("#stop_ident").show();
+                $("#stop_ident").attr('disabled', false);
                 $("#imgResult").html("");
                 $("#hardware_container").hide();
                 unselect_worker();
@@ -106,7 +106,7 @@
 
                     if (msg.uhf_id !== undefined) {
                         if (msg.uhf_id !== "") {
-                            insert_hahdware_to_list(msg.uhf_name, msg.uhf_dbid, msg.uhf_status, 1);
+                            insert_hahdware_to_list(msg.uhf_name, msg.uhf_dbid, msg.uhf_status, msg.uhf_repair, 1);
                         } else {
                         }
                     }
@@ -125,9 +125,14 @@
                     show_stop_ident_btn();
                 });
                 $("#stop_ident").click(function() {
-                    //$('#stop_ident').attr('disabled', 'disabled');
+                    $('#stop_ident').attr('disabled', 'disabled');
                     stop_ident();
                     //show_ident_btn();
+                });
+
+                $("#change_worker").click(function(){
+                    stop_hardware();
+                    top.location.href = "/";
                 });
 
                 // hardware
@@ -143,33 +148,32 @@
 
 <form action="/">
 
-<div class="mt-3 p-3 bg-white rounded box-shadow">
+<div class="mt-3 p-2 bg-white rounded box-shadow">
         <h6 class="border-bottom border-gray pb-2 mb-0">Сотрудник</h6>
-        <div class="media  pt-3">
+        <div class="media pt-3">
 
             <div class="media-body pb-3 mb-0 border-bottom border-gray text-center">
-                <div id="imgResult"></div>
+                <div class="row">
+                    <div class="col-3 text-right">
+                        <div id="imgResult"></div>
+                    </div>
+                    <div class="col-6 text-left">
+                        <div class="report">
+                            <b></b>
+                        </div>
+                        <button type="button" name="start_ident" id="start_ident" class="btn btn-outline-primary" style="display: none;">Сканировать</button>
+                        <button type="button" name="stop_ident" id="stop_ident" class="btn btn-outline-danger" style="display: none;">Остановить сканирование</button>
+                        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#workers" id="manual_select_worker">Выбрать сотрудника вручную</button>
+                        <button type="button" class="btn btn-outline-primary" onclick="top.location.href='/'" id="change_worker" style="display: none;">Изменить сотрудника</button>
 
-                <div class="report">
-                    <b></b>
+                        <div id="worker_data">
+                            <h1 id="worker_name"></h1>
+                            <input type="hidden" value="" id="worker_id" name="worker_id">
+                            <input type="hidden" value="" id="manual_selected" name="manual_selected" value="False">
+                        </div>
+                    </div>
                 </div>
-              <button type="button" name="start_ident" id="start_ident" class="btn btn-outline-primary" style="display: none;">Сканировать</button>
-              <button type="button" name="stop_ident" id="stop_ident" class="btn btn-outline-danger" style="display: none;">Остановить сканирование</button>
-              <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#workers" id="manual_select_worker">Выбрать сотрудника вручную</button>
-              <button type="button" class="btn btn-outline-primary" onclick="top.location.href='/'" id="change_worker" style="display: none;">Изменить сотрудника</button>
 
-                <div id="worker_data">
-
-                    <h1 id="worker_name">
-
-
-
-                    </h1>
-
-                    <input type="hidden" value="" id="worker_id" name="worker_id">
-                    <input type="hidden" value="" id="manual_selected" name="manual_selected" value="False">
-
-                </div>
 
 
 
