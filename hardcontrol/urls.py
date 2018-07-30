@@ -35,6 +35,7 @@ urlpatterns = [
     path('register/', views.Register_user.as_view(), name='register_user'),
 
     path('hard_output/', views.hard_output, name='hard_output'),
+    path('get_worker_photo/', views.get_worker_photo, name='get_worker_photo'),
     path('get_worker/', views.get_worker, name='get_worker'),
     path('get_worker_hard/', views.get_worker_hard, name='get_worker_hard'),
     path('get_hard_object/', views.get_hard_object, name='get_hard_object'),
@@ -47,6 +48,7 @@ urlpatterns = [
     path('hard_list/', views.HardList.as_view(), name='hard_list'),
     path('worker_list/', views.WorkerList.as_view(), name='worker_list')
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += staticfiles_urlpatterns()
+

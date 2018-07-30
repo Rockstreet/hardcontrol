@@ -120,6 +120,8 @@
         {
             var this_worker;
             $('#hardw_list_output').html('');
+
+
             //$("#start_ident").hide();
             //$('#give_hard_btn').hide();
             //$('#div2').hide();
@@ -132,6 +134,10 @@
                 $('#worker_name').html(data.fields.first_name+' '+data.fields.last_name);
 
                 $('#worker_id').val(data.pk);
+
+
+
+                get_worker_photo(data.pk);
 
                 get_worker_hard(data.pk);
 
@@ -147,6 +153,22 @@
             $('#workers').modal('hide');
 
         }
+
+        function get_worker_photo(worker_id) {
+
+              $('#worker_photo').html('');
+
+           $.get('get_worker_photo/', {worker_id:worker_id}, function(data){
+
+                if(data) $('#worker_photo').html('<img src="'+data+'" height="100px">');
+
+
+            });
+
+
+
+        }
+
 
         function unselect_worker()
         {

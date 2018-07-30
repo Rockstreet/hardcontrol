@@ -26,6 +26,8 @@ from django.contrib.auth import authenticate, login, logout
 
 from urllib.parse import urlencode
 
+import base64
+
 
 class Index(generic.TemplateView):
 	template_name = 'hardcontrol/index.html'
@@ -323,6 +325,19 @@ def get_worker(request):
 
 
     return HttpResponse(worker_obj)
+
+
+def get_worker_photo(request):
+
+    if request.method == 'GET':
+        worker_id =  request.GET['worker_id']
+
+    photo_url = UserProfile.objects.filter(user=worker_id).first().foto.url
+
+
+    return HttpResponse(photo_url)
+
+
 
 def get_worker_hard(request):
     worker_id = None
