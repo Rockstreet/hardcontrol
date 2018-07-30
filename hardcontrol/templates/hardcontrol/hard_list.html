@@ -65,7 +65,9 @@
 </td>
 <td>
 {% if list.status %}На складе{% else %}
-    Выдано
+    <b>Выдано:</b> {{ list.hardonworker_set.first.worker_id.first_name }} {{ list.hardonworker_set.first.worker_id.last_name }}
+
+
 {% endif %}
 </td>
 
