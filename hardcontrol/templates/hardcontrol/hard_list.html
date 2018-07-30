@@ -47,6 +47,9 @@
                         Статус
                     </th>
                     <th>
+                        В ремонте
+                    </th>
+                    <th>
                         Описание оборудования
                     </th>
 
@@ -63,6 +66,12 @@
 <td>
 {% if list.status %}На складе{% else %}
     Выдано
+{% endif %}
+</td>
+
+<td>
+    {% if list.repair %}<span class="text-danger">В ремонте</span>{% else %}
+    <span class="text-success">Исправно</span>
 {% endif %}
 </td>
 

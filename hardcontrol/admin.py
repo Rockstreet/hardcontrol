@@ -18,6 +18,8 @@ from django.contrib.auth.models import User
 class Hard_objectsAdmin(admin.ModelAdmin):
     model = Hard_objects
 
+    list_display = ['title', 'number1', 'number2', 'repair']
+
     class Media:
         js = (
             'https://code.jquery.com/jquery-3.3.1.min.js',
