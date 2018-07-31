@@ -2,13 +2,12 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/hardcontrol/templates/base.html" line="195" mnemonic="3" />
-    <bookmark url="file://$PROJECT_DIR$/hardcontrol/views.py" line="413" mnemonic="2" />
-    <bookmark url="file://$PROJECT_DIR$/hardcontrol/templates/base.html" line="124" mnemonic="1" />
+    <bookmark url="file://$PROJECT_DIR$/hardcontrol/views.py" line="415" mnemonic="2" />
+    <bookmark url="file://$PROJECT_DIR$/hardcontrol/templates/hardcontrol/hard_list.html" line="67" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="870f60d3-c866-4703-8a13-e20dd36deced" name="Default" comment="Комплектность оборудования">
+    <list default="true" id="870f60d3-c866-4703-8a13-e20dd36deced" name="Default" comment="Жирненьким">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hardcontrol/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/hardcontrol/templates/base.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,6 +38,7 @@
     <session id="752776231">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.31" value="1" />
           <entry key="project.opened" value="1" />
         </counts>
@@ -57,16 +57,16 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="727" />
-          <entry key="py" value="467" />
-          <entry key="txt" value="138" />
+          <entry key="html" value="875" />
+          <entry key="py" value="516" />
+          <entry key="txt" value="231" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="727" />
-          <entry key="PLAIN_TEXT" value="138" />
-          <entry key="Python" value="467" />
+          <entry key="HTML" value="875" />
+          <entry key="PLAIN_TEXT" value="231" />
+          <entry key="Python" value="516" />
         </counts>
       </usages-collector>
     </session>
@@ -76,8 +76,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hardcontrol/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-432">
-              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="384">
+              <caret line="76" column="11" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="11" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -88,22 +88,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hardcontrol/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="413" selection-start-line="413" selection-end-line="413" />
+            <state relative-caret-position="3512">
+              <caret line="417" column="46" selection-start-line="417" selection-start-column="46" selection-end-line="417" selection-end-column="46" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
-                <marker date="1532949575909" expanded="true" signature="8450:8647" ph="..." />
-                <marker date="1532949575909" expanded="true" signature="10669:10675" ph="..." />
+                <marker date="1532951373409" expanded="true" signature="8450:8692" ph="..." />
+                <marker date="1532951373409" expanded="true" signature="10735:10741" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hardcontrol/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="422">
-              <caret line="231" lean-forward="true" selection-start-line="231" selection-end-line="231" />
+            <state relative-caret-position="269">
+              <caret line="222" lean-forward="true" selection-start-line="222" selection-end-line="222" />
             </state>
           </provider>
         </entry>
@@ -129,17 +129,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hardcontrol/templates/hardcontrol/worker_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-68">
+            <state relative-caret-position="238">
               <caret line="14" column="235" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="235" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hardcontrol/templates/hardcontrol/hard_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="995">
-              <caret line="73" column="29" selection-start-line="73" selection-start-column="29" selection-end-line="73" selection-end-column="29" />
+            <state relative-caret-position="179">
+              <caret line="67" column="18" selection-start-line="67" selection-start-column="18" selection-end-line="67" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -229,14 +229,14 @@
         <option value="$PROJECT_DIR$/hardcontrol/forms.py" />
         <option value="$PROJECT_DIR$/hardcontrol/templates/hardcontrol/list_operations.html" />
         <option value="$PROJECT_DIR$/hardcontrol/admin.py" />
-        <option value="$PROJECT_DIR$/hardcontrol/templates/hardcontrol/hard_list.html" />
         <option value="$PROJECT_DIR$/hardcontrol/settings.py" />
         <option value="$PROJECT_DIR$/hardcontrol/templates/hardcontrol/worker_detail.html" />
         <option value="$PROJECT_DIR$/hardcontrol/urls.py" />
         <option value="$PROJECT_DIR$/hardcontrol/models.py" />
-        <option value="$PROJECT_DIR$/hardcontrol/views.py" />
         <option value="$PROJECT_DIR$/hardcontrol/templates/hardcontrol/index.html" />
         <option value="$PROJECT_DIR$/hardcontrol/templates/base.html" />
+        <option value="$PROJECT_DIR$/hardcontrol/views.py" />
+        <option value="$PROJECT_DIR$/hardcontrol/templates/hardcontrol/hard_list.html" />
       </list>
     </option>
   </component>
@@ -452,13 +452,34 @@
       <option name="project" value="LOCAL" />
       <updated>1532950096083</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Микроошибка">
+      <created>1532951017092</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1532951017092</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Жирненьким">
+      <created>1532951388053</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1532951388053</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Сотрудник, кому выдано в списке оборудования.">
+      <created>1532953415167</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1532953415167</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="0" width="1922" height="1041" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25349087" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25349087" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -470,7 +491,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5005208" side_tool="true" weight="0.32968238" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="9" visible="true" weight="0.3295838" />
+      <window_info anchor="bottom" id="Version Control" order="9" visible="true" weight="0.3295838" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="bottom" x="256" y="634" width="1002" height="301" id="Docker" order="11" show_stripe_button="false" sideWeight="0.49947917" type="FLOATING" weight="0.32968238" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
@@ -499,7 +520,10 @@
     <MESSAGE value="Фото сотрудника" />
     <MESSAGE value="Фото сотрудника в профиле сотрудника" />
     <MESSAGE value="Комплектность оборудования" />
-    <option name="LAST_COMMIT_MESSAGE" value="Комплектность оборудования" />
+    <MESSAGE value="Микроошибка" />
+    <MESSAGE value="Жирненьким" />
+    <MESSAGE value="Сотрудник, кому выдано в списке оборудования." />
+    <option name="LAST_COMMIT_MESSAGE" value="Сотрудник, кому выдано в списке оборудования." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file:///usr/local/lib/python3.5/dist-packages/django/contrib/admin/sites.py">
@@ -562,13 +586,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hardcontrol/templates/hardcontrol/hard_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="995">
-          <caret line="73" column="29" selection-start-line="73" selection-start-column="29" selection-end-line="73" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/lib/python3.5/dist-packages/django/db/models/fields/files.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -580,13 +597,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="401">
           <caret line="148" column="19" selection-start-line="148" selection-start-column="19" selection-end-line="148" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hardcontrol/templates/hardcontrol/worker_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-68">
-          <caret line="14" column="235" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="235" />
         </state>
       </provider>
     </entry>
@@ -604,16 +614,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hardcontrol/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-432">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/hardcontrol/templates/hardcontrol/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="282">
@@ -621,22 +621,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/hardcontrol/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="222" lean-forward="true" selection-start-line="222" selection-end-line="222" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hardcontrol/templates/hardcontrol/worker_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="235" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="235" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/hardcontrol/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="413" selection-start-line="413" selection-end-line="413" />
+        <state relative-caret-position="3512">
+          <caret line="417" column="46" selection-start-line="417" selection-start-column="46" selection-end-line="417" selection-end-column="46" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
-            <marker date="1532949575909" expanded="true" signature="8450:8647" ph="..." />
-            <marker date="1532949575909" expanded="true" signature="10669:10675" ph="..." />
+            <marker date="1532951373409" expanded="true" signature="8450:8692" ph="..." />
+            <marker date="1532951373409" expanded="true" signature="10735:10741" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hardcontrol/templates/base.html">
+    <entry file="file://$PROJECT_DIR$/hardcontrol/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="231" lean-forward="true" selection-start-line="231" selection-end-line="231" />
+        <state relative-caret-position="384">
+          <caret line="76" column="11" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hardcontrol/templates/hardcontrol/hard_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="67" column="18" selection-start-line="67" selection-start-column="18" selection-end-line="67" selection-end-column="18" />
         </state>
       </provider>
     </entry>
