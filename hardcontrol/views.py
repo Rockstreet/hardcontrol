@@ -261,7 +261,7 @@ class HardList(generic.ListView):
         context['object_list_used'] = {}
         for v in context['object_list']:
             context['object_list_used'][v.pk] = (HardTransaction.objects.filter(hard_id=v.pk, type=True).count())
-
+        
         return context
 
 

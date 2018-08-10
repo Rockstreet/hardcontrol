@@ -61,7 +61,16 @@
 </td>
 
 <td>
-{{ object_list_used.list }}
+    {% for key, value in object_list_used.items %}
+
+        {% if key == list.pk %}
+
+            {{ value }}
+
+        {% endif %}
+
+
+        {% endfor %}
 </td>
 
 <td>
