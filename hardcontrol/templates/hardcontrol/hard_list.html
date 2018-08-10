@@ -40,20 +40,11 @@
 
             <table class="table">
                 <tr>
-                    <th>
-                        <b>Наименование</b>
-                    </th>
-                    <th>
-                        Статус
-                    </th>
-                    <th>
-                        В ремонте
-                    </th>
-                    <th>
-                        Описание оборудования
-                    </th>
-
-
+                    <th><b>Наименование</b></th>
+                    <th>Статус</th>
+                    <th>Использовалось</th>
+                    <th>В ремонте</th>
+                    <th>Описание оборудования</th>
                 </tr>
 
 
@@ -66,9 +57,11 @@
 <td>
 {% if list.status %}На складе{% else %}
     <b>Выдано:</b> {{ list.hardonworker_set.first.worker_id.first_name }} {{ list.hardonworker_set.first.worker_id.last_name }}
-
-
 {% endif %}
+</td>
+
+<td>
+{{ object_list_used.list }}
 </td>
 
 <td>

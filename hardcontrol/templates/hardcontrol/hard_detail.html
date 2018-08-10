@@ -18,6 +18,10 @@
                 {% if hard_objects.number_reg %}Номер свидетельства о регистрации: {{ hard_objects.number_reg}}<br>{% endif %}
                 {% if hard_objects.number_name %}Марка транспортного средства: {{ hard_objects.number_name}}<br>{% endif %}
                 <br>
+                <p>
+                    <b>Использовалось:</b> {{ hardtransaction_used }} {{ hardtransaction_used_text }}
+
+                </p>
 
             {%  if hard_objects.status %}
                 <h3>Оборудование на складе</h3>

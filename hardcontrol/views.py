@@ -187,6 +187,22 @@ class HardDetail(generic.DetailView):
     model = Hard_objects
     template_name = 'hardcontrol/hard_detail.html'
 
+    def plural_for_number(self, number):
+        text = "раз"
+        n10 = abs(number) % 10
+        n100 = abs(number) % 100
+        if ((n10 == 2) or (n10 == 3) or (n10 == 4)):
+            text = "раза"
+            if ((n10 == 2) or (n10 == 3) or (n10 == 4)):
+                if ((n100 > 10) and (n10 < 20)):
+                    text = "раз"
+                else:
+                    text = "раза"
+            else:
+                text = "раз"
+
+        return text
+
     def get_context_data(self, **kwargs):
         context = super(HardDetail, self).get_context_data(**kwargs)
 
@@ -195,6 +211,10 @@ class HardDetail(generic.DetailView):
             context['this_worker_data'] = HardOnWorker.objects.filter(hard_id=self.object.pk).last().datetime
 
         context['hardtransaction_list'] = HardTransaction.objects.filter(hard_id=self.object.pk).order_by('-datetime')
+
+        hardtransaction_used = HardTransaction.objects.filter(hard_id=self.object.pk, type=True).count()
+        context['hardtransaction_used'] = hardtransaction_used
+        context['hardtransaction_used_text'] = self.plural_for_number(hardtransaction_used)
 
         return context
 
@@ -232,7 +252,19 @@ class HardList(generic.ListView):
 
         else:
             object_list = self.model.objects.all()
+
         return object_list
+
+    def get_context_data(self, **kwargs):
+        context = super(HardList, self).get_context_data(**kwargs)
+
+        context['object_list_used'] = {}
+        for v in context['object_list']:
+            context['object_list_used'][v.pk] = (HardTransaction.objects.filter(hard_id=v.pk, type=True).count())
+
+        return context
+
+
 
 
 class WorkerList(generic.ListView):
