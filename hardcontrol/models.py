@@ -18,9 +18,23 @@ class Hard_objects(models.Model):
     name_rem = models.CharField(_("Наименование ремонтных комплектов"), max_length=1000, default='', blank=True)
     number_reg = models.CharField(_("Номер свидетельства о регистрации"), max_length=1000, default='', blank=True)
     number_name = models.CharField(_("Марка транспортного средства"), max_length=1000, default='', blank=True)
+
+    dop_1 = models.CharField(_("№ паспорта"), max_length=1000, default='', blank=True)
+    dop_2 = models.CharField(_("№ удостоверения"), max_length=1000, default='', blank=True)
+    dop_3 = models.CharField(_("Денежные средства"), max_length=1000, default='', blank=True)
+    dop_4 = models.CharField(_("Вид и номер носильных МТС"), max_length=1000, default='', blank=True)
+
+
+
+
+
+
+
     status = models.BooleanField(_("Оборудование на складе"), default=True )
     repair = models.BooleanField(_("Оборудование в ремонте"), default=False )
     complect = models.TextField(_("Комплектность оборудования"), blank=True)
+
+
 
 
 

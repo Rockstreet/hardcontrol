@@ -17,6 +17,12 @@
                 {% if hard_objects.name_rem %}Наименование ремонтных комплектов: {{ hard_objects.name_rem }}<br>{% endif %}
                 {% if hard_objects.number_reg %}Номер свидетельства о регистрации: {{ hard_objects.number_reg}}<br>{% endif %}
                 {% if hard_objects.number_name %}Марка транспортного средства: {{ hard_objects.number_name}}<br>{% endif %}
+
+                {% if hard_objects.dop_1 %}№ паспорта: {{ hard_objects.dop_1}}<br>{% endif %}
+                {% if hard_objects.dop_2 %}№ удостоверения: {{ hard_objects.dop_2}}<br>{% endif %}
+                {% if hard_objects.dop_3 %}Денежные средства: {{ hard_objects.dop_3}}<br>{% endif %}
+                {% if hard_objects.dop_4 %}Вид и номер носильных МТС: {{ hard_objects.dop_4}}<br>{% endif %}
+
                 <br>
                 <p>
                     <b>Использовалось:</b> {{ hardtransaction_used }} {{ hardtransaction_used_text }}
