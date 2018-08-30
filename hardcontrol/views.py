@@ -139,6 +139,11 @@ class ListOperations(generic.ListView):
             except:
                 manager = ''
 
+            try:
+                name = self.request.GET['name']
+            except:
+                name = ''
+
 
             if (manager != 'Все' and manager !='') :
                 object_list = object_list.filter(manager_id=manager).order_by('-datetime')
@@ -172,6 +177,9 @@ class ListOperations(generic.ListView):
 
             if (title != ''):
                 object_list = object_list.filter(hard_id__title__icontains=title).order_by('-datetime')
+
+            if (name != ''):
+                object_list = object_list.filter(hard_id__name__icontains=name).order_by('-datetime')
 
 
             return object_list
@@ -261,7 +269,7 @@ class HardList(generic.ListView):
         context['object_list_used'] = {}
         for v in context['object_list']:
             context['object_list_used'][v.pk] = (HardTransaction.objects.filter(hard_id=v.pk, type=True).count())
-        
+
         return context
 
 

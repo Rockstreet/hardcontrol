@@ -23,6 +23,9 @@
                         Наименование оборудования
                     </th>
                     <th>
+                        Наименование инженерно-технического средства
+                    </th>
+                    <th>
                         Сотрудник
                     </th>
                     <th>
@@ -55,6 +58,11 @@
                     <td>
                         <input type="text" name="title" value="{% if request.GET.title %}{{ request.GET.title }}{% endif %}" class="form-control" placeholder="Наименование оборудование" aria-label="Наименование оборудование" aria-describedby="basic-addon2">
                     </td>
+
+                    <td>
+                        <input type="text" name="name" value="{% if request.GET.name %}{{ request.GET.name }}{% endif %}" class="form-control" placeholder="Наименование инженерно-технического средства" aria-label="Наименование инженерно-технического средства" aria-describedby="basic-addon2">
+                    </td>
+
                     <td>
                         <input type="text" name="last_name" value="{% if request.GET.last_name %}{{ request.GET.last_name }}{% endif %}" class="form-control" placeholder="Фамилия сотрудника" aria-label="Recipient's username" aria-describedby="basic-addon2">
                     </td>
@@ -119,6 +127,11 @@
                     <th>
                         Наименование оборудования
                     </th>
+
+                    <th>
+                        Наименование инженерно-технического средства
+                    </th>
+
                     <th>
                         Сотрудник
                     </th>
@@ -146,6 +159,12 @@
 <td>
 
     <a href="{% url 'hard_detail' list.hard_id.pk %}"> {{ list.hard_id }}</a>
+
+</td>
+
+<td>
+
+     {{ list.hard_id.name }}
 
 </td>
 
