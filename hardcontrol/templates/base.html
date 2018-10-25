@@ -102,6 +102,19 @@
 
 
     <script language="JavaScript">
+
+      function play_sound(operation) {
+          var audio;
+          if (operation == 'operation_complete') {
+            $('#confirm_operation').modal('hide');
+            $('#confirm_operation_manager').modal('hide');
+            audio = new Audio('/static/operation_complete.wav');
+          } else if (operation == 'system_is_ready') {
+            audio = new Audio('/static/system_is_ready.wav');
+          }
+          audio.play();
+      }
+
       function hard_input(id,manual)
       {
           $.get('hard_input/', {hard_id: id, worker_id:$('#worker_id').val(), select_auto:manual}, function(data){
@@ -120,7 +133,6 @@
       function get_hard_complect(hard_id) {
 
              $.get('hard_complect/', {hard_id: hard_id}, function(data){
-
 
                 $('#complect_modal').modal('show');
 
@@ -157,7 +169,9 @@
                 get_worker_hard(data.pk);
 
                 $("#give_hard_btn").removeAttr('disabled');
+                $("#give_hard_btn_confirm").removeAttr('disabled');
                 $("#input_hard_btn").removeAttr('disabled');
+                $("#input_hard_btn_confirm").removeAttr('disabled');
 
             });
 
@@ -190,7 +204,9 @@
             $('#worker_name').html('');
             $('#worker_id').val();
             $("#give_hard_btn").attr('disabled','disabled');
+            $("#give_hard_btn_confirm").attr('disabled','disabled');
             $("#input_hard_btn").attr('disabled','disabled');
+            $("#input_hard_btn_confirm").attr('disabled','disabled');
         }
 
         function get_worker_hard(worker_id)
@@ -200,7 +216,9 @@
             $.getJSON('get_worker_hard/', {worker_id:worker_id}, function(data1){
 
                 console.log(data1);
+                play_sound('system_is_ready');
                 if (data1.length) {
+
                     $("#div1").show();
                     $.each(data1, function (key, val) {
                         //  console.log(val.fields.hard_id);
@@ -289,8 +307,45 @@
           check_hardware_list_count();
         }
 
+        function input_hard_btn () { // прием оборудования у сотрудника
+            $(".select_manual:checkbox:checked").each(function () {
+                this_id = $(this).val();
+                select_auto = $(".select_auto[name=sa" + this_id + "]:checkbox:checked").length;
+                hard_input($(this).val(), select_auto);
+            });
+            play_sound('operation_complete');
+            $('#operation_complete_get').modal('show');
+
+            //alert('Оборудование принято');
+            //window.location.href = '/';
+        }
+
+        function give_hard_btn () { // выдача оборудования сотреднику
+              if ($('#worker_id').val() != '') {
+                  stop_hardware();
+
+                  $.each($('.hard_id'), function () {
+                      select_auto=$(".selectautoinsert"+$(this).val()).val();
+
+                      $.get('hard_output/', {hard_id: $(this).val(), worker_id: $('#worker_id').val(),select_auto: select_auto}, function (data) {
+                          $('#rem' + data).after('<font color=green>Выдано</font>');
+                          $('#rem' + data).remove();
+                      });
+                  });
+
+                  play_sound('operation_complete');
+                  $('#operation_complete_send').modal('show');
+                  //alert('Оборудование выдано');
+                  //window.location.href = '/';
+              }
+              else alert('Сотрудник не выбран');
+        }
+
       $(document).ready(function(){
 
+          $('#operation_complete_get, #operation_complete_send').on('hidden.bs.modal', function (e) {
+              window.location.href = '/';
+          });
           //Выбор оборудования вручную
 
           $('#select_hardw').click(function () {
@@ -322,6 +377,29 @@
               select_worker(worker_id,1);
           });
 
+          $('#give_hard_btn_confirm').click(function() {
+              start_ident();
+              $('#confirm_operation_report, .report').html('');
+              $('#confirm_operation').modal('show');
+          });
+
+          $('#confirm_operation').on('hide.bs.modal', function (e) {
+                stop_ident();
+          });
+
+          $('#input_hard_btn_confirm').click(function() {
+              need_manager_auth = 1;
+              start_ident();
+              $('#confirm_operation_manager_report, .report').html('');
+              $('#confirm_operation_manager').modal('show');
+          });
+
+          $('#confirm_operation_manager').on('hide.bs.modal', function (e) {
+              need_manager_auth = 0;
+              stop_ident();
+          });
+
+
           $('#give_hard_btn').click(function () {
 
               if ($('#worker_id').val() != '') {
@@ -348,6 +426,8 @@
 
                   });
 
+                  play_sound('operation_complete');
+
                   alert('Оборудование выдано');
                   window.location.href = '/';
 
@@ -369,6 +449,8 @@
 
 
               });
+
+              play_sound('operation_complete');
 
               alert('Оборудование принято');
               window.location.href = '/';

@@ -22,8 +22,8 @@ class Hard_objectsAdmin(admin.ModelAdmin):
 
     class Media:
         js = (
-            'https://code.jquery.com/jquery-3.3.1.min.js',
-            '//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js',
+            '/static/js/jquery-3.3.1.min.js',
+            '/static/js/socket.io.min.js',
             '/static/admin/js/hardwareegistration.js',
         )
 
@@ -43,7 +43,7 @@ class UserAdmin(UserAdmin):
 
     class Media:
         js = (
-            'https://code.jquery.com/jquery-3.3.1.min.js',
+            '/static/js/jquery-3.3.1.min.js',
             # '//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js',
             '/static/admin/js/fpregistration.js',
         )
@@ -60,6 +60,6 @@ admin.site.register(User, UserAdmin)
 
 admin.site.register(Hard_objects, Hard_objectsAdmin)
 
-admin.site.site_header = "Система контроля оборудования ЭТЦП И РПРПК";
-admin.site.index_title = "Вам доступны для администрирования:";
-admin.site.site_title = "Система контроля оборудования ЭТЦП И РПРПК";
+admin.site.site_header = "Система контроля оборудования ЭТЦП И РПРПК"
+admin.site.index_title = "Вам доступны для администрирования:"
+admin.site.site_title = "Система контроля оборудования ЭТЦП И РПРПК"

@@ -7,6 +7,10 @@
         <script type="text/javascript" charset="utf-8">
             var lastMsg;
             var lastMsg_ident;
+            var current_operation_auth = true;
+            var current_operation_user_id;
+            var need_manager_auth = 0;
+            var manager_user_id = "{{ user.pk }}";
             var socketio = null;
             var namespace = "/work";
             var socketio_hardware = null;
@@ -82,22 +86,45 @@
                connect();
                socketio.on("update", function(msg) {
                     //if (lastMsg_ident !== msg.msg) {
-                        //console.log(msg.user_id);
-                        if (msg.user_id !== undefined) {
-                            if (msg.user_id !== -1) {
-                                show_ident_btn();
-                                select_worker(msg.user_id, 0);
-                                start_hardware();
-                            }
-                            showImg();
-                        }
-                        if (msg.ident_scanner !== undefined) {
-                            if (msg.ident_scanner === "stop") {
-                                show_ident_btn();
-                            }
-                        }
+                   //console.log(msg.user_id);
+                   if (current_operation_auth) {
+                       if (msg.user_id !== undefined) {
+                           if (msg.user_id !== -1) {
+                               current_operation_auth = false;
+                               current_operation_user_id = msg.user_id;
+                               show_ident_btn();
+                               select_worker(msg.user_id, 0);
+                               start_hardware();
+                           }
+                           showImg();
+                       }
+                       if (msg.ident_scanner !== undefined) {
+                           if (msg.ident_scanner === "stop") {
+                               show_ident_btn();
+                           }
+                       }
+                   } else {
+                       if (need_manager_auth == 0) {
+                           if (msg.user_id == current_operation_user_id) {
+                               give_hard_btn();
+                           } else {
+                               if (msg.user_id !== undefined) {
+                                   $('#confirm_operation_report').html('Необходимо, чтобы получение подтвердил сотрудник <b>' + $('#worker_name').text() + '</b>! <a href="#" data-dismiss="modal">Повторите выдачу оборудования</a>');
+                               }
+                           }
+                       } else if (need_manager_auth == 1) {
+                           if (msg.user_id == manager_user_id) {
+                               input_hard_btn();
+                           } else {
+                               if (msg.user_id !== undefined) {
+                                   $('#confirm_operation_manager_report').html('Необходимо, чтобы получение подтвердил <b>менеджер</b>! <a href="#" data-dismiss="modal">Повторите прием оборудования</a>');
+                               }
+                           }
+                       }
+                   }
                       //  lastMsg_ident = msg.msg;
-                        $(".report").html(msg.msg + "<br />");
+                    //console.log(msg.msg);
+                    $(".report").html(msg.msg + "<br />");
                     //}
                 });
 
@@ -242,7 +269,8 @@
             </table>
         </div>
         <small class="d-block text-right mt-3" id="in_pocess">
-            <button type="button" class="btn btn-outline-danger" id="input_hard_btn" disabled="disabled">Принять оборудование</button>
+            <!--<button type="button" class="btn btn-outline-danger" id="input_hard_btn" disabled="disabled">Принять оборудование</button>-->
+            <button type="button" class="btn btn-outline-danger" id="input_hard_btn_confirm" disabled="disabled">Принять оборудование</button>
         </small>
 
         <small style="display: none;" class="text-right mt-3" id="sucess">
@@ -262,7 +290,8 @@
 
         </div>
         <small class="d-block text-right mt-3" id="in_pocess">
-            <button type="button" class="btn btn-outline-success" id="give_hard_btn" disabled="disabled">Выдать оборудование</button>
+            <!--<button type="button" class="btn btn-outline-success" id="give_hard_btn" disabled="disabled">Выдать оборудование</button>-->
+            <button type="button" class="btn btn-outline-success" id="give_hard_btn_confirm" disabled="disabled">Выдать оборудование</button>
         </small>
 
         <small style="display: none;" class="text-right mt-3" id="sucess">
@@ -342,6 +371,91 @@
       </div>
       <div class="modal-body" id="complect_data">
 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="confirm_operation">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Подтверждение операции</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="confirm_operation_data">
+          <h6>Требуется подтверждение получения оборудования сотрудником</h6>
+          <div class="report"></div>
+          <div id="confirm_operation_report"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="confirm_operation_manager">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Подтверждение операции</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="confirm_operation_manager_data">
+          <h6>Требуется подтверждение получения оборудования менеджером</h6>
+          <div class="report"></div>
+          <div id="confirm_operation_manager_report"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="operation_complete_get">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Оборудование принято</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="operation_complete_get_data">
+          <h6>Оборудование принято</h6>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="operation_complete_send">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Оборудование выдано</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="operation_complete_send_data">
+          <h6>Оборудование выдано</h6>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>

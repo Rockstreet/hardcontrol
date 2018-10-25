@@ -69,6 +69,7 @@ class UserProfile(models.Model):
     template8 = models.TextField(null=True, blank=True)
     template9 = models.TextField(null=True, blank=True)
     template10 = models.TextField(null=True, blank=True)
+    face_id = models.IntegerField(null=True, blank=True)
 
     def __unicode__(self):
         return self.user

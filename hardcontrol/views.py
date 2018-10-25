@@ -27,6 +27,7 @@ from django.contrib.auth import authenticate, login, logout
 from urllib.parse import urlencode
 
 import base64
+from django.db.models import Q
 
 
 class Index(generic.TemplateView):
@@ -256,7 +257,7 @@ class HardList(generic.ListView):
         except:
             title = ''
         if (title != ''):
-            object_list = self.model.objects.filter(title__icontains=title)
+            object_list = self.model.objects.filter(Q(title__contains=title) | Q(meta_description__contains=title) | Q(name__contains=title))
 
         else:
             object_list = self.model.objects.all()
@@ -453,11 +454,22 @@ def hard_complect(request):
     if request.method == 'GET':
         hard_id =  request.GET['hard_id']
 
-    hard_complect='<b>Серийный номер:</b> '+Hard_objects.objects.filter(pk=hard_id).first().number1
-    hard_complect+= '<br><b>Заводской номер:</b> '+Hard_objects.objects.filter(pk=hard_id).first().number2
-    hard_complect+= '<br><b>Комплектность:</b> <br>'+Hard_objects.objects.filter(pk=hard_id).first().complect.replace('\n', '<br />')
+    hardObj = Hard_objects.objects.filter(pk=hard_id).first()
+    
+    hard_complect = ''
+    # hard_complect+= '<b>Серийный номер:</b> ' + hardObj.number1 + '<br>' if hardObj.number1 != '' else ""
+    hard_complect+= '<b>Инвентарный номер:</b> ' + hardObj.number1 + '<br>' if hardObj.number1 != '' else ""
+    hard_complect+= '<b>Заводской номер:</b> ' + hardObj.number2 + '<br>' if hardObj.number2 != '' else ""
+    hard_complect+= '<b>Наименование инженерно-технического средства:</b> ' + hardObj.name + '<br>' if hardObj.name != '' else ""
+    hard_complect+= '<b>Наименование ремонтных комплектов:</b> ' + hardObj.name_rem + '<br>' if hardObj.name_rem != '' else ""
+    hard_complect+= '<b>Номер свидетельства о регистрации:</b> ' + hardObj.number_reg + '<br>' if hardObj.number_reg != '' else ""
+    hard_complect+= '<b>Марка транспортного средства:</b> ' + hardObj.number_name + '<br>' if hardObj.number_name != '' else ""
+    hard_complect+= '<b>№ паспорта:</b> ' + hardObj.dop_1 + '<br>' if hardObj.dop_1 != '' else ""
+    hard_complect+= '<b>№ удостоверения:</b> ' + hardObj.dop_2 + '<br>' if hardObj.dop_2 != '' else ""
+    hard_complect+= '<b>Денежные средства:</b> ' + hardObj.dop_3 + '<br>' if hardObj.dop_3 != '' else ""
+    hard_complect+= '<b>Вид и номер носильных МТС:</b> ' + hardObj.dop_4 + '<br>' if hardObj.dop_4 != '' else ""
+    hard_complect+= '<b>Описание оборудования:</b> ' + hardObj.meta_description + '<br>' if hardObj.meta_description != '' else ""
 
+    hard_complect+= '<b>Комплектность:</b><br>' + hardObj.complect.replace('\n', '<br />') + '<br>' if hardObj.complect != '' else ""
 
     return HttpResponse(hard_complect)
-
-    return
