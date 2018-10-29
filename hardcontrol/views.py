@@ -1,34 +1,22 @@
 from django.conf.urls import url
-
 from django.http import HttpResponse,JsonResponse
-
 from django.views import generic
-
 from django.contrib.auth.models import User
-
 from .models import UserProfile, Hard_objects, HardOnWorker, HardTransaction
-
 from django.views.generic import CreateView
-
+from django.views.generic.edit import FormView
 from django.core.serializers.json import DjangoJSONEncoder
-
 from django.core import serializers
-
-import json
-
+import json, csv
 from .models import Hard_objects
-
 from django.http import HttpResponseRedirect
-
 from django.shortcuts import render
-
 from django.contrib.auth import authenticate, login, logout
-
 from urllib.parse import urlencode
-
 import base64
 from django.db.models import Q
-
+from hardcontrol.forms import UploadFileForm
+from io import StringIO
 
 class Index(generic.TemplateView):
 	template_name = 'hardcontrol/index.html'
@@ -226,7 +214,6 @@ class HardDetail(generic.DetailView):
         context['hardtransaction_used_text'] = self.plural_for_number(hardtransaction_used)
 
         return context
-
 
 class WorkerDetail(generic.DetailView):
     model = User
@@ -473,3 +460,36 @@ def hard_complect(request):
     hard_complect+= '<b>Комплектность:</b><br>' + hardObj.complect.replace('\n', '<br />') + '<br>' if hardObj.complect != '' else ""
 
     return HttpResponse(hard_complect)
+
+def handle_csv_data(csv_file):
+    csv_file = io.TextIOWrapper(csv_file)  # python 3 only
+    dialect = csv.Sniffer().sniff(csv_file.read(1024), delimiters=";,")
+    csv_file.seek(0)
+    reader = csv.reader(csv_file, dialect)
+    return list(reader)
+
+
+class InventoryIndex(generic.ListView):
+    model = Hard_objects
+    template_name = 'hardcontrol/inventory_index.html'
+
+
+class InventoryForm(FormView):
+    template_name = 'hardcontrol/inventory_form.html'
+    form_class = UploadFileForm
+    success_url = '/inventory_index'
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        if form.is_valid():
+            file = request.FILES['file']
+            decoded_file = file.read().decode('utf-8')
+            csv_data = csv.reader(StringIO(decoded_file), delimiter=',')
+            for row in csv_data:
+                print(row[0])
+
+
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)

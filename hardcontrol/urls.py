@@ -47,7 +47,9 @@ urlpatterns = [
     path('login_page/', views.LoginPage.as_view(), name='login_page'),
     path('exit/', views.exit, name='exit'),
     path('hard_list/', views.HardList.as_view(), name='hard_list'),
-    path('worker_list/', views.WorkerList.as_view(), name='worker_list')
+    path('worker_list/', views.WorkerList.as_view(), name='worker_list'),
+    path('inventory_index/', views.InventoryIndex.as_view(), name='inventory_index'),
+    path('inventory/', views.InventoryForm.as_view(), name='inventory')
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

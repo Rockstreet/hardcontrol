@@ -4,15 +4,12 @@ from django.forms import ModelForm
 from .models import UserProfile
 
 
-class CreateAccountForm(ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ("username","password","password2","first_name","last_name",
-                  "gender","medication","medical_history","DOB","email","telephone",
-                  "address","city","state","postcode")
+# class CreateAccountForm(ModelForm):
+#     class Meta:
+#         model = UserProfile
+#         fields = ("username","password","password2","first_name","last_name",
+#                   "gender","medication","medical_history","DOB","email","telephone",
+#                   "address","city","state","postcode")
 
-
-
-
-
-
+class UploadFileForm(forms.Form):
+    file = forms.FileField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
