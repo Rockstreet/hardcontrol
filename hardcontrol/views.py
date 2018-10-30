@@ -15,56 +15,43 @@ from django.contrib.auth import authenticate, login, logout
 from urllib.parse import urlencode
 import base64
 from django.db.models import Q
-from hardcontrol.forms import UploadFileForm
+# from hardcontrol.forms import UploadFileForm
 from io import StringIO
+from django.urls import reverse
+from . import forms
+
 
 class Index(generic.TemplateView):
-	template_name = 'hardcontrol/index.html'
-
-
-	def get_context_data(self, **kwargs):
-		context = super(Index, self).get_context_data(**kwargs)
-
-		context['hardw_list']=Hard_objects.objects.filter(status=True).filter(repair=False).all
-
-
-		context['worker_list']=User.objects.filter(groups__name='Сотрудники')
-
-		print(context['worker_list'])
-
-
-		return context
-
-
-
-
+    template_name = 'hardcontrol/index.html'
+    def get_context_data(self, **kwargs):
+        context = super(Index, self).get_context_data(**kwargs)
+        context['hardw_list']=Hard_objects.objects.filter(status=True).filter(repair=False).all
+        context['worker_list']=User.objects.filter(groups__name='Сотрудники')
+        print(context['worker_list'])
+        return context
 
 
 class Register_user(generic.CreateView):
+    model = User
+    fields = ['username']
+    template_name = 'hardcontrol/register_user.html'
 
-	model = User
+    def createuser(request):
 
-	fields = ['username']
-
-	template_name = 'hardcontrol/register_user.html'
-
-
-	def createuser(request):
-
-		user = User.objects.create_user(
-			username=request.POST.cleaned_data['username'],
-			email=request.POST.cleaned_data['email'],
-			password=request.POST.cleaned_data['password1']
-		)
-		user.save()
-		user_profile=UserProfile.objects.create(
-			user=user,
-			passport=request.POST.cleaned_data['username'],
-		)
-		user_profile.save()
+        user = User.objects.create_user(
+            username=request.POST.cleaned_data['username'],
+            email=request.POST.cleaned_data['email'],
+            password=request.POST.cleaned_data['password1']
+        )
+        user.save()
+        user_profile=UserProfile.objects.create(
+            user=user,
+            passport=request.POST.cleaned_data['username'],
+        )
+        user_profile.save()
 
 
-		return True
+        return True
 
 
 
@@ -473,10 +460,24 @@ class InventoryIndex(generic.ListView):
     model = Hard_objects
     template_name = 'hardcontrol/inventory_index.html'
 
+    def get_queryset(self):
+        print(self.request.POST['csv'])
+        try:
+            title = self.request.GET['title']
+        except:
+            title = ''
+        if (title != ''):
+            object_list = self.model.objects.filter(Q(title__contains=title) | Q(meta_description__contains=title) | Q(name__contains=title))
+
+        else:
+            object_list = self.model.objects.all()
+
+        return object_list
+
 
 class InventoryForm(FormView):
     template_name = 'hardcontrol/inventory_form.html'
-    form_class = UploadFileForm
+    form_class = forms.UploadFileForm
     success_url = '/inventory_index'
 
     def post(self, request, *args, **kwargs):
@@ -493,3 +494,21 @@ class InventoryForm(FormView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+    def get_success_url(self):
+         #print(self.pk)
+         return reverse('inventory_index', kwargs={'csv': '-----------------------'})
+
+
+def inventory(request):
+    form = forms.UploadFileForm()
+
+    if request.method == "POST":
+        print("POST")
+        form = forms.UploadFileForm(request.POST) #if no files
+        if form.is_valid():
+            print("------------")
+    context = {
+        'form': form
+    }
+    return render(request, "hardcontrol/inventory_form.html", context)
