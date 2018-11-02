@@ -48,10 +48,11 @@ urlpatterns = [
     path('exit/', views.exit, name='exit'),
     path('hard_list/', views.HardList.as_view(), name='hard_list'),
     path('worker_list/', views.WorkerList.as_view(), name='worker_list'),
-    path('inventory_index/', views.InventoryIndex.as_view(), name='inventory_index'),
+    # path('inventory_print/', views.InventoryPrint.as_view(), name='inventory_print'),
     # path('inventory/', views.InventoryForm.as_view(), name='inventory')
     # path('inventory/', 'inventory', name='inventory')
-    url(r'^inventory/$', views.inventory, name='inventory')
+    url(r'^inventory/$', views.inventory, name='inventory'),
+    url(r'^inventory_print/$', views.inventory_print, name='inventory_print')
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

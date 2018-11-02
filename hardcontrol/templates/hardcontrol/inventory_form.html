@@ -22,4 +22,63 @@
             </div>
         </div>
     </div>
+
+    {% if csv_list|length > 0 %}
+
+        <div class="mt-3 p-3 bg-white rounded box-shadow">
+
+            <h6 class="pb-2 mb-0"><b>Оборудование</b></h6>
+
+            {% if csv_not_recognized_list|length > 0 %}
+            {# не распознанные метки #}
+                <div class="alert alert-danger" role="alert">
+                    <a class="alert-link" data-toggle="collapse" href="#collapse_csv_not_recognized_list" role="button" aria-expanded="false" aria-controls="collapse_csv_not_recognized_list">
+                        Не распознанно {{ csv_not_recognized_list|length }} меток
+                    </a>
+                    <div class="collapse" id="collapse_csv_not_recognized_list">
+                        <div class="card card-body">
+                            {% for not_recognized in csv_not_recognized_list %}
+                                {{ not_recognized }}<br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <form action="{% url 'inventory_print' %}" method="post" target="_blank">
+              {% csrf_token %}
+
+                <div class="mb-2"><button type="submit" class="btn btn-outline-success">Распечатать</button></div>
+                <table class="table">
+                    <tr>
+                        <th><b>Наименование</b></th>
+                        <th>Наименование СВТ</th>
+                        <th>Использовалось</th>
+                        <th>Описание оборудования</th>
+                    </tr>
+
+
+                     {% for csv in csv_list %}
+                        <tr>
+                            <td>
+                                <input type="hidden" name="csv_ids" value="{{ csv.pk }}">
+                                {{ csv.title }}
+                            </td>
+                            <td>{{ csv.name }}</td>
+                            <td>
+                                {% for key, value in object_list_used.items %}
+                                    {% if key == csv.pk %}
+                                        {{ value }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ csv.meta_description }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <div class="mt-2"><button type="submit" class="btn btn-outline-success">Распечатать</button></div>
+
+            </form>
+        </div>
+    {% endif %}
 {% endblock %}

@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .models import UserProfile, Hard_objects, HardOnWorker, HardTransaction
 from django.views.generic import CreateView
 from django.views.generic.edit import FormView
+from django.views.generic.list import ListView
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 import json, csv
@@ -448,67 +449,100 @@ def hard_complect(request):
 
     return HttpResponse(hard_complect)
 
-def handle_csv_data(csv_file):
-    csv_file = io.TextIOWrapper(csv_file)  # python 3 only
-    dialect = csv.Sniffer().sniff(csv_file.read(1024), delimiters=";,")
-    csv_file.seek(0)
-    reader = csv.reader(csv_file, dialect)
-    return list(reader)
 
 
-class InventoryIndex(generic.ListView):
+
+class InventoryPrint(ListView):
     model = Hard_objects
-    template_name = 'hardcontrol/inventory_index.html'
+    template_name = 'hardcontrol/inventory_print.html'
 
     def get_queryset(self):
-        print(self.request.POST['csv'])
-        try:
-            title = self.request.GET['title']
-        except:
-            title = ''
-        if (title != ''):
-            object_list = self.model.objects.filter(Q(title__contains=title) | Q(meta_description__contains=title) | Q(name__contains=title))
-
-        else:
-            object_list = self.model.objects.all()
-
+        print(self.request.POST['csv_ids'])
+        object_list = {}
+        #object_list = self.model.objects.filter(Q(title__contains=title) | Q(meta_description__contains=title) | Q(name__contains=title))
         return object_list
 
+#
+# class InventoryForm(FormView):
+#     template_name = 'hardcontrol/inventory_form.html'
+#     form_class = forms.UploadFileForm
+#     success_url = '/inventory_index'
+#
+#     def post(self, request, *args, **kwargs):
+#         form_class = self.get_form_class()
+#         form = self.get_form(form_class)
+#         if form.is_valid():
+#             file = request.FILES['file']
+#             decoded_file = file.read().decode('utf-8')
+#             csv_data = csv.reader(StringIO(decoded_file), delimiter=',')
+#             for row in csv_data:
+#                 print(row[0])
+#
+#
+#             return self.form_valid(form)
+#         else:
+#             return self.form_invalid(form)
+#
+#     def get_success_url(self):
+#          return reverse('inventory_index', kwargs={'csv': '-----------------------'})
 
-class InventoryForm(FormView):
-    template_name = 'hardcontrol/inventory_form.html'
-    form_class = forms.UploadFileForm
-    success_url = '/inventory_index'
 
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+def inventory(request):
+
+    # form = forms.UploadFileForm(request.POST, request.FILES)
+    csv_list = []
+    csv_not_recognized_list = []
+    object_list_used = {}
+
+    if request.method == "POST":
+        form = forms.UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             file = request.FILES['file']
             decoded_file = file.read().decode('utf-8')
             csv_data = csv.reader(StringIO(decoded_file), delimiter=',')
             for row in csv_data:
-                print(row[0])
+                hard_obj = Hard_objects.objects.filter(rfid_id=row[0]).first()
+                if hard_obj:
+                    csv_list.append(hard_obj)
+                    object_list_used[hard_obj.pk] = (HardTransaction.objects.filter(hard_id=hard_obj.pk, type=True).count())
+                else:
+                    csv_not_recognized_list.append(row[0])
 
 
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+    else:
+        form = forms.UploadFileForm()
 
-    def get_success_url(self):
-         #print(self.pk)
-         return reverse('inventory_index', kwargs={'csv': '-----------------------'})
-
-
-def inventory(request):
-    form = forms.UploadFileForm()
-
-    if request.method == "POST":
-        print("POST")
-        form = forms.UploadFileForm(request.POST) #if no files
-        if form.is_valid():
-            print("------------")
     context = {
-        'form': form
+        'form': form,
+        'csv_list': csv_list,
+        'csv_not_recognized_list': csv_not_recognized_list,
+        'object_list_used': object_list_used
     }
     return render(request, "hardcontrol/inventory_form.html", context)
+
+def inventory_print(request):
+
+
+    csv_list = []
+    csv_not_recognized_list = []
+    object_list_used = {}
+
+    if request.method == "POST":
+        csv_ids = request.POST.getlist('csv_ids')
+        # print('csv_ids ', csv_ids)
+
+        csv_list = Hard_objects.objects.filter(pk__in=csv_ids)
+
+        # for row in csv_ids:
+        #     hard_obj = Hard_objects.objects.filter(pk=row).first()
+        #     if hard_obj:
+        #         csv_list.append(hard_obj)
+                # object_list_used[hard_obj.pk] = (Hard_objects.objects.filter(hard_id=hard_obj.pk, type=True).count())
+
+    print(csv_list)
+    context = {
+        'csv_list': csv_list,
+    }
+
+    return render(request, "hardcontrol/inventory_print.html", context)
+
