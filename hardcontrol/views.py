@@ -20,6 +20,7 @@ from django.db.models import Q
 from io import StringIO
 from django.urls import reverse
 from . import forms
+from django.db.models import Count
 
 
 class Index(generic.TemplateView):
@@ -531,7 +532,19 @@ def inventory_print(request):
         csv_ids = request.POST.getlist('csv_ids')
         # print('csv_ids ', csv_ids)
 
-        csv_list = Hard_objects.objects.filter(pk__in=csv_ids)
+        csv_list = Hard_objects.objects.filter(pk__in=csv_ids).values('name').order_by('name').annotate(the_count=Count('name'))
+        # csv_list = Hard_objects.objects.filter(pk__in=csv_ids).annotate(dcount=Count('name'))
+
+
+        for row in csv_list:
+            sklad_count = Hard_objects.objects.filter(name=row['name']).count()
+            row['sklad_count'] = sklad_count
+            row['used_count'] = Hard_objects.objects.filter(name=row['name'], status=False).count() # колонка в пользовании
+            row['repair_count'] = Hard_objects.objects.filter(name=row['name'], repair=True).count()
+
+            # print()
+
+        print(csv_list)
 
         # for row in csv_ids:
         #     hard_obj = Hard_objects.objects.filter(pk=row).first()
@@ -539,7 +552,6 @@ def inventory_print(request):
         #         csv_list.append(hard_obj)
                 # object_list_used[hard_obj.pk] = (Hard_objects.objects.filter(hard_id=hard_obj.pk, type=True).count())
 
-    print(csv_list)
     context = {
         'csv_list': csv_list,
     }
